@@ -1,0 +1,416 @@
+.container-fluid {
+    background-color: #f6f6f6;
+    padding: 20px;
+}
+
+.card {
+    border: none;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+#progressbar {
+    margin-top: 5px;
+    overflow: hidden;
+    counter-reset: step;
+}
+
+#progressbar li {
+    list-style-type: none;
+    width: 33.33%;
+    float: left;
+    font-size: 12px;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    color: #7d7d7d;
+}
+
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border: 2px solid #7d7d7d;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    background-color: white;
+}
+
+#progressbar li:after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    background-color: #7d7d7d;
+    position: absolute;
+    left: -50%;
+    top: 15px;
+    z-index: -1;
+}
+
+#progressbar li:first-child:after {
+    content: none;
+}
+
+#progressbar li.active {
+    color: #bb0411;
+}
+
+#progressbar li.active:before {
+    border-color: #bb0411;
+}
+
+.action-button {
+    width: 100px;
+    background: #bb0411;
+    color: #fff;
+    border: 0 none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+    justify-content: flex-end;
+}
+
+.submit,
+.previous,
+.next {
+    float: right;
+}
+
+.action-button:hover,
+.action-button:focus {
+    background-color: #99121b;
+}
+
+.action-button.previous {
+    background-color: #494c4e;
+}
+
+.action-button.previous:hover {
+    background-color: #3c3f42;
+}
+
+.action-button.submit {
+    background-color: #bb0411;
+}
+
+.action-button.submit:hover {
+    background-color: #99121b;
+}
+
+.form-card label,
+.form-card input[type="number"] {
+    display: block;
+}
+
+.form-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 40px;
+    width: 600px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-height: 80vh;
+    transform: translate(-50%, -50%);
+}
+
+.form-card-tenant {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 52px;
+    width: 600px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-height: 80vh;
+    transform: translate(-50%, -50%);
+}
+
+.form-card-tenant input[type="number"],
+.form-card-tenant input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.form-card-tenant input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    float: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-card h2 {
+    margin-top: 0;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+.error-message {
+    margin-top: 5px;
+}
+
+.form-card input[type="text"],
+.form-card input[type="number"],
+.form-card select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.input-row label {
+    flex-basis: 50%;
+    text-align: left;
+    margin-right: 10px;
+}
+
+.form-card-fee {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 52px;
+    width: 1000px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-height: 60vh;
+    overflow-y: auto;
+    transform: translate(-50%, -50%);
+}
+
+.left-side {
+    width: 45%;
+}
+
+.right-side {
+    width: 45%;
+    margin-bottom: 16%;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.label-text {
+    flex-basis: 40%;
+}
+
+.input-field {
+    flex-basis: 60%;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.logo {
+    float: left;
+    width: 6.5%;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+hr {
+    border-top: 5px solid #dd0404;
+    margin-top: 2px;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-weight: bold;
+    text-align: center;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.subsection-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th,
+.table td {
+    padding: 8px;
+    border-top: none;
+}
+
+.table td {
+    border-top: 1px solid #ddd;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.row {
+    margin-bottom: 20px;
+}
+
+.col {
+    padding-left: 0;
+}
+
+.left-portion {
+    padding-right: 15px;
+}
+
+.right-portion {
+    padding-left: 15px;
+}
+
+ul:before {
+    content: "-";
+    margin-right: 10px;
+}
+
+.list {
+    list-style-type: none;
+    text-indent: -3em;
+}
+
+.justified {
+    text-align: justify;
+    font-size: 12px;
+}
+
+.half-line-left {
+    width: 100%;
+    margin-top: 20px;
+    border-top: 1px solid #030303;
+    float: left;
+}
+
+.half-line-right {
+    width: 50%;
+    margin-top: 20px;
+    border-top: 1px solid #030303;
+    float: right;
+}
+
+.small-list {
+    font-size: 12px;
+}
+
+.row {
+    font-size: 12px;
+}
+
+.p-size {
+    font-weight: bold;
+}
+
+.date {
+    margin-top: 27px;
+    margin-left: 270px;
+    font-weight: bold;
+}
+
+.home-img {
+    float: right;
+    width: 50px;
+}
+
+.hr-charges {
+    border: 2px solid #c0baba;
+    margin-top: 10px;
+}
+
+.p-concession {
+    float: right;
+}
+
+.td {
+    text-align: right
+}
+
+.td-right-bold {
+    text-align: right;
+    font-weight: bold;
+}
+
+.td-bold {
+    font-weight: bold;
+}
+
+.hr-due-upon-move {
+    border: 2px solid #c0baba;
+}
+
+.table-money-due-upon-move {
+    margin-bottom: 11px;
+}
+
+.h6-upon-move {
+    margin-top: 40px;
+}
+
+.hr-cost-sheet {
+    border-top: 3px solid #ac0e0e;
+}
+
+.logo-image {
+    float: right;
+    width: 7%;
+}
+
+@media (max-width: 575.98px) {
+
+    .left-portion,
+    .right-portion {
+        padding: 0;
+    }
+}

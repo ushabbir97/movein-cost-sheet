@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ICO Cost Sheet</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</head>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<body>
+    <div class="container">
+        <h3 class="title"> {{community}} <img class="logo-image" src="{{ url_for('static', filename='img/logo.jpg') }}"
+                alt="Logo Image">
+        </h3>
+        <h3 class="title">Cost Sheet</h3>
+        <hr class="hr-cost-sheet">
+        <h5 class="section-title">Resident Information</h5>
+        <hr>
+        <div class="row">
+            <div class="col-md-6 left-portion">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Name:</td>
+                            <td>{{tenant_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>New Address:</td>
+                            <td>{{address}}</td>
+                        </tr>
+                        <tr>
+                            <td>Apt #:</td>
+                            <td>{{apt_number}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 right-portion">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Move-In Date:</td>
+                            <td>{{move_in_date}}</td>
+                        </tr>
+                        <tr>
+                            <td>Lease End:</td>
+                            <td>30/04/2024</td>
+                        </tr>
+                        <tr>
+                            <td>Lease Term (mths):</td>
+                            <td>{{lease_term}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <h5 class="section-title">Cost:</h5>
+        <hr>
+        <div class="row">
+            <div class="col-md-6 left-portion">
+                <h6 class="subsection-title">Holding Fees</h6>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Administration Fee:</td>
+                            <td class="td">${{admin_fee}}</td>
+                        </tr>
+                        <tr>
+                            <td>Application Fee:</td>
+                            <td class="td">${{app_fee}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h6 class="h6-upon-move">Money Due Upon Move In</h6>
+                <table class="table table-money-due-upon-move">
+                    <tbody>
+                        <tr>
+                            <td>Security Deposit (OAC):</td>
+                            <td class="td">${{security_deposit}}</td>
+                        </tr>
+                        <tr>
+                            <td>Pet Deposit:</td>
+                            <td class="td">${{pet_deposit}}</td>
+                        </tr>
+                        <tr>
+                            <td>Pet Fee:</td>
+                            <td class="td">${{pet_fee}}</td>
+                        </tr>
+                        <tr>
+                            <td>Smart Home Buyer Program:</td>
+                            <td class="td">${{smart_home_buyer_program}}</td>
+                        </tr>
+                        <tr>
+                            <td>Rent from 05/01 - 05/31:</td>
+                            <td class="td">{{total_monthly_rent}}</td>
+                        </tr>
+                        <tr>
+                            <td class="td-bold">Total Due Upon Move In:</td>
+                            <td class="td-right-bold">${{total_due}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr class="hr-due-upon-move">
+            </div>
+            <div class="col-md-6 right-portion">
+                <h6 class="subsection-title">Monthly Charges</h6>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Monthly Rent:</td>
+                            <td class="td">${{monthly_rent}}</td>
+                        </tr>
+                        <tr>
+                            <td>Smart Home Package:</td>
+                            <td class="td">${{media_automation}}</td>
+                        </tr>
+                        <tr>
+                            <td>Others (HOA, Short term fee, Bike storage, etc):</td>
+                            <td class="td">${{others}}</td>
+                        </tr>
+                        <tr>
+                            <td>Garage:</td>
+                            <td class="td">${{garage}}</td>
+                        </tr>
+                        <tr>
+                            <td>carport:</td>
+                            <td class="td">${{carport}}</td>
+                        </tr>
+                        <tr>
+                            <td>Storage:</td>
+                            <td class="td">${{storage}}</td>
+                        </tr>
+                        <tr>
+                            <td>Pet:</td>
+                            <td class="td">${{pet}}</td>
+                        </tr>
+                        <tr>
+                            <td>Insurance Waiver:</td>
+                            <td class="td">${{insurance_waiver}}</td>
+                        </tr>
+                        <tr>
+                            <td>Monthly Concession:</td>
+                            <td class="td">(${{monthly_concession}})</td>
+                        </tr>
+                        <tr>
+                            <td class="td-bold">Total Monthly Rent:</td>
+                            <td class="td-right-bold">${{total_monthly_rent}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr class="hr-charges">
+                <p class="p-concession">*Your one-time concession of ${{one_time_con}} will be given after move-in
+                    prorated rent
+                    is paid in full.
+                </p>
+            </div>
+        </div>
+        <h5 class="section-title">Move-In Day</h5>
+        <hr>
+        <p class="justified">Your move in day is of the utmost importance to us. All parties who are on the lease must
+            be present to sign
+            documentation (or e-sign prior to the move in date) for apartment keys to be released. In addition please
+            provide the following:
+        </p>
+        <li class="small-list list">
+            <ul>Mereo for Cable TV & Internet &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(801) 478-7201
+                &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp;(Call at least
+                seven days in advance to ensure set up is complete by move in)
+            </ul>
+            <ul>Water, sewer, trash, unit & common area power/gas, and Valet Waste trash service will be set up for you
+                and billed by BillEase but must be paid to the leasing office each month. Your first bill will have a
+                one-time $25.00 set up fee added to it.
+            </ul>
+            <ul>Renter's Insurance Declaration Page must have at least $100,000 in personal liability and ICO Station
+                Parkway listed as an additional insured
+            </ul>
+            <ul>Two most recent paystubs or other approved proof of income</ul>
+            <ul>Required funds for move-in (see above) to be paid via cashier's check, money order, or credit card (fees
+                apply).
+            </ul>
+        </li>
+        <h5 class="section-title">Resident/Manager Acceptance</h5>
+        <hr>
+        <p class="justified">I understand my application fee and administration fee are required to reserve my apartment
+            home. Any holding
+            fees in the same check (deposit and app fee together) or via credit card will be deposited and processed the
+            same day. I understand that if I cancel this application within 24 hours or if my application is declined,
+            it may take 30 days to receive a refund of the refundable portion of the holding fee paid. My personal check
+            or money order can be held for 72 hours before it is deposited. I further understand that my right to cancel
+            this application within 24 hours is terminated once I sign a lease agreement. More importantly, I understand
+            that the 24 hour right to cancel does not apply to the lease agreement once signed. I understand that if I
+            cancel my applictation after 24 hours, I will forfeit the administration fee paid. Once the lease agreement
+            has been signed, any amounts paid shall be governed by the lease agreement.
+        </p>
+        <div class="row">
+            <div class="col-md-6 left-portion">
+                <hr class="half-line-left">
+                <p class="p-size">Future Resident Signature</p>
+            </div>
+            <div class="col-md-6 right-portion">
+                <hr class="half-line-right">
+                <p class="date">Date</p>
+            </div>
+            <div class="col-md-6 left-portion">
+                <hr class="half-line-left">
+                <p class="p-size">Future Resident Signature</p>
+            </div>
+            <div class="col-md-6 right-portion">
+                <hr class="half-line-right">
+                <p class="date">Date</p>
+            </div>
+            <div class="col-md-6 left-portion">
+                <hr class="half-line-left">
+                <p class="p-size">ICO Station Parkway Agent</p>
+            </div>
+            <div class="col-md-6 right-portion">
+                <hr class="half-line-right">
+                <p class="date">Date</p>
+            </div>
+        </div>
+        <p class="justified">© ICO Multifamily Property Management 2016. For use only within ICO Companies organization.
+            Unauthorized use,
+            copying, or distribution of this information beyond ICO and the user for which it is intended is strictly
+            prohibited.<img class="home-img" src="{{ url_for('static', filename='img/home.jpg') }}" alt="Home Image">
+        </p>
+    </div>
+</body>
+
+</html>

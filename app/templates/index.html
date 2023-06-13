@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ICO Cost Sheet</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="card">
+            <form id="invoiceForm" action="{{ url_for('main.invoice') }}" method="post">
+
+                <div id="progressbar">
+                    <li class="active">General</li>
+                    <li class="">Tenant Info</li>
+                    <li class="">Fees and Charges</li>
+                </div>
+                <div class="form-card">
+                    <h2 class="fs-title">General</h2>
+                    <div class="input-row">
+                        <label for="community">Community Name:</label>
+                        <select id="community" name="community" required>
+                            <option value="">--Select--</option>
+                        </select>
+                    </div>
+                    <div class="input-row">
+                        <label id="provider_label" for="provider">DirecTV Provider:</label>
+                        <select id="provider" name="provider" required>
+                            <option value="">--Select--</option>
+                        </select>
+                    </div>
+                    <div class="input-row">
+                        <label id="address_label" for="address">Street Address:</label>
+                        <select id="address" name="address" required>
+                            <option value="">---Select--</option>
+                        </select>
+                    </div>
+                    <div class="input-row">
+                        <label for="concession">Include One-time Concession:</label><br>
+                        <select id="concession" name="concession" required>
+                            <option value="">--Select--</option>
+                        </select>
+                    </div>
+                    <input type="button" id="nextBtn1" name="next" class="next action-button" value="Next" />
+                </div>
+                <div class="form-card-tenant">
+                    <h2 class="fs-title">Tenant Info</h2>
+                    <div class="input-row">
+                        <label for="tenant-name">Tenant Name:</label>
+                        <input type="text" id="tenant-name" name="tenant_name" required />
+                    </div>
+                    <div class="input-row">
+                        <label for="apt-number">Apartment Number:</label>
+                        <input type="number" id="apt-number" name="apt_number" required />
+                    </div>
+                    <div class="input-row">
+                        <label for="move-in-date">Move-in Date:</label>
+                        <input type="date" id="move-in-date" name="move_in_date" required />
+                    </div>
+                    <div class="input-row">
+                        <label for="lease-term">Lease Term (months):</label>
+                        <input type="number" id="lease-term" name="lease_term" required />
+                    </div>
+                    <input type="button" id="nextBtn2" name="next" class="next next2 action-button" value="Next" />
+                    <input type="button" id="prevBtn1" name="previous" class="previous action-button"
+                        value="Previous" />
+                </div>
+
+                <div class="form-card-fee">
+                    <h2 class="fs-title">Fees and Charges</h2>
+                    <div class="form-row">
+                        <div class="left-side">
+                            <div class="input-row">
+                                <label for="admin-fee" class="label-text">Administration Fee:</label>
+                                <input type="number" id="admin-fee" name="admin_fee" class="input-field" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="app-fee" class="label-text">Application Fee:</label>
+                                <input type="number" id="app-fee" name="app_fee" class="input-field" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="security-deposit" class="label-text">Security Deposit:</label>
+                                <input type="number" id="security-deposit" name="security_deposit" class="input-field"
+                                    required />
+                            </div>
+                            <div class="input-row">
+                                <label for="pet-deposit" class="label-text">Pet Deposit (refundable):</label>
+                                <input type="number" id="pet-deposit" name="pet_deposit" class="input-field" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="pet-fee" class="label-text">Pet Fee (non-refundable):</label>
+                                <input type="number" id="pet-fee" name="pet_fee" class="input-field" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="smart-home-program" class="label-text">Smart Home Buyer Program:</label>
+                                <input type="number" id="smart-home-program" name="smart_home_buyer_program"
+                                    class="input-field" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="monthly-rent" class="label-text">Monthly Rent:</label>
+                                <input type="number" id="monthly-rent" name="monthly_rent" class="input-field"
+                                    required />
+                            </div>
+                            <div class="input-row">
+                                <label for="media-automation" class="label-text">Media/Automation Package:</label>
+                                <input type="number" id="media-automation" name="media_automation" class="input-field"
+                                    required />
+                            </div>
+                            <div class="input-row">
+                                <label for="others" class="label-text">Other (HOA, Short term fee, Bike Storage
+                                    etc):</label>
+                                <input type="number" id="others" name="others" class="input-field" required />
+                            </div>
+                        </div>
+                        <div class="right-side">
+                            <div class="input-row">
+                                <label for="garage" class="label-text">Garage:</label>
+                                <input type="number" id="garage" name="garage" class="input-field" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="carport" class="label-text">Carport:</label>
+                                <input type="number" id="carport" name="carport" class="input-field" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="storage" class="label-text">Storage:</label>
+                                <input type="number" id="storage" name="storage" class="input-field" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="monthly-pet-fee" class="label-text">Monthly Pet Fee:</label>
+                                <input type="number" id="monthly-pet-fee" name="monthly_pet_fee" class="input-field"
+                                    required />
+                            </div>
+                            <div class="input-row">
+                                <label for="insurance-waiver" class="label-text">Insurance Waiver:</label>
+                                <input type="number" id="insurance-waiver" name="insurance_waiver" class="input-field"
+                                    required />
+                            </div>
+                            <div class="input-row">
+                                <label for="monthly-concession" class="label-text">Monthly Concession:</label>
+                                <input type="number" id="monthly-concession" name="monthly_concession"
+                                    class="input-field" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="one-time-con" class="label-text">One-time Conc:</label>
+                                <input type="number" id="one-time-con" name="one_time_con" class="input-field"
+                                    required />
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="submit action-button">Submit</button>
+                    <input type="button" id="prevBtn2" name="previous" class="previous previous2 action-button"
+                        value="Previous" />
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

@@ -1,20 +1,41 @@
+# Movein Cost Sheet Project
+
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+The Movein Cost Sheet project is a Flask-based web application that lets users input data through a form and generates an invoice based on that data.
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+This section outlines instructions on setting up a local development environment.
+## Installation
+### Create and Activate a Virtual Environment
+Navigate to the project directory (MOVEIN-COST-SHEET) and set up a virtual environment to isolate your Python environment. You can do this using the following commands:
+```cd MOVEIN-COST-SHEET
+python3 -m venv env
+```
+Next, activate the virtual environment:
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+- On MacOS/Linux:
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+```
+source env/bin/activate
+```
+- On Windows:
+```
+.\env\Scripts\activate
+```
+### Install Requirements
+While in the activated virtual environment, install the necessary packages using pip. You can do this by running the following command:
+```
+pip install -r requirements.txt
+```
+###
+```
+export FLASK_APP=app.py
+flask run
+```
+On Windows, user `set` instead of `export`
+```
+set FLASK_APP=app.py
+flask run
+```
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+This will start the application and it will be accessible at http://localhost:5000 in your web browser.
