@@ -1,122 +1,151 @@
 {
-    "communities": [
-        "ICO Orchard Farms",
-        "ICO Fairbourne Station",
-        "ICO District",
-        "ICO Ridge",
-        "ICO Ridge Towns",
-        "ICO Mayfield",
-        "ICO Mayfield North",
-        "ICO Monteval",
-        "The Aston at University Place",
-        "The Devon at University Place",
-        "The Exton at University Place",
-        "ICO Multifamily - Fruit Hieghts Townhomes",
-        "ICO Multifamily - Pleasant Grove Townhones",
-        "ICO Multifamily - Jordan View Townhomes",
-        "ICO Multifamily - Holbrook Towns",
-        "ICO Multifamily - Parkview Towns",
-        "ICO Station Parkway",
-        "ICO Station Parkway II",
-        "ICO Vista Station"
-    ],
-    "providers": {
-        "ICO Orchard Farms": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO Fairbourne Station": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO District": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO Ridge": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO Mayfield": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO Mayfield North": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO Monteval": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "The Aston at University Place": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "The Devon at University Place": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "The Exton at University Place": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO Station Parkway II": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO Vista Station": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO Station Parkway": [
-            "Vicidiem",
-            "Comcast",
-            " Mereo"
-        ],
-        "ICO Multifamily - Parkview Towns": [],
-        "ICO Multifamily - Holbrook Towns": [],
-        "ICO Multifamily - Jordan View Townhomes": [],
-        "ICO Multifamily - Pleasant Grove Townhones": [],
-        "ICO Multifamily - Fruit Hieghts Townhomes": []
-    },
-    "addresses": {
-        "ICO Orchard Farms": [
-            "Street 1",
-            "Street 2"
-        ],
-        "ICO Vista Station": [
-            "590 N, Station Parkway"
-        ],
-        "ICO Multifamily - Fruit Hieghts Townhomes": [],
-        "ICO Fairbourne Station": [],
-        "ICO District": [],
-        "ICO Ridge Towns": [],
-        "ICO Monteval": [],
-        "The Aston at University Place": [],
-        "The Devon at University Place": [],
-        "The Exton at University Place": [],
-        "ICO Multifamily - Pleasant Grove Townhones": [],
-        "ICO Multifamily - Jordan View Townhomes": [],
-        "ICO Multifamily - Holbrook Towns": [],
-        "ICO Multifamily - Parkview Towns": [],
-        "ICO Station Parkway": [],
-        "ICO Station Parkway II": []
-    },
-    "concessions": [
-        "Yes",
-        "No"
-    ]
+	"communities": [
+		"ICO Orchard Farms",
+		"ICO Fairbourne Station",
+		"ICO District",
+		"ICO Ridge",
+		"ICO Ridge Towns",
+		"ICO Mayfield",
+		"ICO Mayfield North",
+		"ICO Monteval",
+		"The Aston at University Place",
+		"The Devon at University Place",
+		"The Exton at University Place",
+		"ICO Multifamily - Fruit Hieghts Townhomes",
+		"ICO Multifamily - Pleasant Grove Townhones",
+		"ICO Multifamily - Jordan View Townhomes",
+		"ICO Multifamily - Holbrook Towns",
+		"ICO Multifamily - Parkview Towns",
+		"ICO Station Parkway",
+		"ICO Station Parkway II",
+		"ICO Vista Station"
+	],
+	"providers": {
+		"ICO Orchard Farms": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO Fairbourne Station": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO District": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO Ridge": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO Mayfield": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO Mayfield North": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO Monteval": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"The Aston at University Place": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"The Devon at University Place": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"The Exton at University Place": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO Station Parkway II": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO Vista Station": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO Station Parkway": [
+			"Vicidiem",
+			"Comcast",
+			" Mereo"
+		],
+		"ICO Ridge Towns": [],
+		"ICO Multifamily - Parkview Towns": [],
+		"ICO Multifamily - Holbrook Towns": [],
+		"ICO Multifamily - Jordan View Townhomes": [],
+		"ICO Multifamily - Pleasant Grove Townhones": [],
+		"ICO Multifamily - Fruit Hieghts Townhomes": []
+	},
+	"addresses": {
+		"ICO Orchard Farms": [
+			"668 E Snap Dragon Lane",
+			"877 S Lily Drive",
+			"929 S Lily Drive",
+			"671 E Apple Bolossom Way"
+		],
+		"ICO Vista Station": [
+			"590 N, Station Parkway",
+			"13122 South Vista Station Boulevard",
+			"13182 South Vista Station Boulevard"
+		],
+		"ICO Ridge": [
+			"3255 N Center St",
+			"3285 N Center St",
+			"3315 N Center St"
+		],
+		"ICO Mayfield": [
+			"2275 West 250 South",
+			"195 South 2220 West",
+			"217 South 2220 West",
+			"224 South 2150 West",
+			"2173 West 250 South",
+			"2176 West 250 South",
+			"2095 West 250 South",
+			"2206 West 250 South",
+			"Custom"
+		],
+		"ICO Mayfield North": [
+			"2340 West 250 South",
+			"Custom"
+		],
+		"ICO Multifamily - Parkview Towns": [
+			"W Wildwood Drive (290 North)",
+			"W Ledgewood Lane (275 North)",
+			"N Westridge Lane (1610 West)"
+		],
+		"ICO Multifamily - Fruit Hieghts Townhomes": [],
+		"ICO Fairbourne Station": [],
+		"ICO District": [],
+		"ICO Ridge Towns": [],
+		"ICO Monteval": [],
+		"The Aston at University Place": [],
+		"The Devon at University Place": [],
+		"The Exton at University Place": [],
+		"ICO Multifamily - Pleasant Grove Townhones": [],
+		"ICO Multifamily - Jordan View Townhomes": [],
+		"ICO Multifamily - Holbrook Towns": [],
+		"ICO Station Parkway": [],
+		"ICO Station Parkway II": []
+	},
+	"concessions": [
+		"Yes",
+		"No"
+	]
 }

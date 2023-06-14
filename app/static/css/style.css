@@ -148,6 +148,15 @@
     display: block;
 }
 
+/* .form-card-tenant input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    float: center;
+} */
 .form-card-tenant input[type="date"] {
     width: 100%;
     padding: 10px;
@@ -156,6 +165,13 @@
     box-sizing: border-box;
     margin-bottom: 20px;
     float: center;
+    appearance: none;
+    -moz-appearance: textfield;
+}
+
+/* Chrome, Safari, Edge */
+.form-card-tenant input[type="date"]::-webkit-datetime-edit {
+    padding: 0;
 }
 
 label {
@@ -250,7 +266,7 @@ input[type="number"] {
 
 .logo {
     float: left;
-    width: 6.5%;
+    width: 79px;
 }
 
 .container {
@@ -361,7 +377,7 @@ ul:before {
 
 .home-img {
     float: right;
-    width: 50px;
+    width: 30px;
 }
 
 .hr-charges {
@@ -373,7 +389,7 @@ ul:before {
     float: right;
 }
 
-.td {
+.row-value {
     text-align: right
 }
 
@@ -407,10 +423,49 @@ ul:before {
     width: 7%;
 }
 
+.concession-row {
+    color: red;
+}
+
 @media (max-width: 575.98px) {
 
     .left-portion,
     .right-portion {
         padding: 0;
     }
+}
+
+@media print {
+    .print-button {
+        display: none !important;
+    }
+}
+
+
+
+.print,
+.back {
+    float: right;
+}
+
+.action-button.back {
+    background-color: #494c4e;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.75rem;
+    line-height: 2.5;
+}
+
+.action-button.print {
+    background-color: #105f94;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.75rem;
+    line-height: 2.5;
+}
+
+.action-button.back:hover {
+    background-color: #3c3f42;
+}
+
+.action-button.print:hover {
+    background-color: #044d96;
 }

@@ -11,6 +11,8 @@
 <body>
     <div class="container-fluid">
         <div class="card">
+            <img class="logo" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo Image">
+
             <form id="invoiceForm" action="{{ url_for('main.invoice') }}" method="post">
 
                 <div id="progressbar">

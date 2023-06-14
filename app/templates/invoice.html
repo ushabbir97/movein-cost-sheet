@@ -31,7 +31,7 @@
                             <td>{{address}}</td>
                         </tr>
                         <tr>
-                            <td>Apt #:</td>
+                            <td></td>
                             <td>{{apt_number}}</td>
                         </tr>
                     </tbody>
@@ -46,7 +46,7 @@
                         </tr>
                         <tr>
                             <td>Lease End:</td>
-                            <td>30/04/2024</td>
+                            <td>{{end_date_lease_end}}</td>
                         </tr>
                         <tr>
                             <td>Lease Term (mths):</td>
@@ -65,11 +65,11 @@
                     <tbody>
                         <tr>
                             <td>Administration Fee:</td>
-                            <td class="td">${{admin_fee}}</td>
+                            <td class="row-value">${{admin_fee}}</td>
                         </tr>
                         <tr>
                             <td>Application Fee:</td>
-                            <td class="td">${{app_fee}}</td>
+                            <td class="row-value">${{app_fee}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -78,23 +78,23 @@
                     <tbody>
                         <tr>
                             <td>Security Deposit (OAC):</td>
-                            <td class="td">${{security_deposit}}</td>
+                            <td class="row-value">${{security_deposit}}</td>
                         </tr>
                         <tr>
                             <td>Pet Deposit:</td>
-                            <td class="td">${{pet_deposit}}</td>
+                            <td class="row-value">${{pet_deposit}}</td>
                         </tr>
                         <tr>
                             <td>Pet Fee:</td>
-                            <td class="td">${{pet_fee}}</td>
+                            <td class="row-value">${{pet_fee}}</td>
                         </tr>
                         <tr>
                             <td>Smart Home Buyer Program:</td>
-                            <td class="td">${{smart_home_buyer_program}}</td>
+                            <td class="row-value">${{smart_home_buyer_program}}</td>
                         </tr>
                         <tr>
-                            <td>Rent from 05/01 - 05/31:</td>
-                            <td class="td">{{total_monthly_rent}}</td>
+                            <td>Rent from {{ start_date }} - {{ end_date_rent_from }}:</td>
+                            <td class="row-value">${{total_monthly_rent}}</td>
                         </tr>
                         <tr>
                             <td class="td-bold">Total Due Upon Move In:</td>
@@ -110,39 +110,39 @@
                     <tbody>
                         <tr>
                             <td>Monthly Rent:</td>
-                            <td class="td">${{monthly_rent}}</td>
+                            <td class="row-value">${{monthly_rent}}</td>
                         </tr>
                         <tr>
                             <td>Smart Home Package:</td>
-                            <td class="td">${{media_automation}}</td>
+                            <td class="row-value">${{media_automation}}</td>
                         </tr>
                         <tr>
                             <td>Others (HOA, Short term fee, Bike storage, etc):</td>
-                            <td class="td">${{others}}</td>
+                            <td class="row-value">${{others}}</td>
                         </tr>
                         <tr>
                             <td>Garage:</td>
-                            <td class="td">${{garage}}</td>
+                            <td class="row-value">${{garage}}</td>
                         </tr>
                         <tr>
                             <td>carport:</td>
-                            <td class="td">${{carport}}</td>
+                            <td class="row-value">${{carport}}</td>
                         </tr>
                         <tr>
                             <td>Storage:</td>
-                            <td class="td">${{storage}}</td>
+                            <td class="row-value">${{storage}}</td>
                         </tr>
                         <tr>
                             <td>Pet:</td>
-                            <td class="td">${{pet}}</td>
+                            <td class="row-value">${{monthly_pet_fee}}</td>
                         </tr>
                         <tr>
                             <td>Insurance Waiver:</td>
-                            <td class="td">${{insurance_waiver}}</td>
+                            <td class="row-value">${{insurance_waiver}}</td>
                         </tr>
                         <tr>
                             <td>Monthly Concession:</td>
-                            <td class="td">(${{monthly_concession}})</td>
+                            <td class="row-value concession-row">(${{monthly_concession}})</td>
                         </tr>
                         <tr>
                             <td class="td-bold">Total Monthly Rent:</td>
@@ -225,8 +225,14 @@
             Unauthorized use,
             copying, or distribution of this information beyond ICO and the user for which it is intended is strictly
             prohibited.<img class="home-img" src="{{ url_for('static', filename='img/home.jpg') }}" alt="Home Image">
-        </p>
+        </p><br>
+        <div class="print-button">
+            <button onclick="window.print()" class="btn action-button btn-sm btn-xs print ">Print</button>
+            <button onclick="history.back()" class="btn action-button btn-sm btn-xs back mr-2">Back</button>
+        </div>
     </div>
+
+
 </body>
 
 </html>
