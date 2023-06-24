@@ -1,7 +1,7 @@
 from flask import jsonify, render_template, request
 from . import bp
 from ..services.calculations import calculate_totals, format_dates
-from ..services.dropdown import load_dropdown_options
+from ..services.dropdown import load_dropdown_options, load_fee_params
 
 @bp.route("/")
 def index():
@@ -56,8 +56,25 @@ def get_form_data():
     """
     Retrieves data for form dropdown options.
 
-    This endpoint loads dropdown options from a JSON file and returns them in a
+    This endpoint loads dropdown options from database and returns them in a
     JSON response.
     """
     dropdown_options = load_dropdown_options()
     return jsonify(dropdown_options)
+
+
+@bp.route("/get_fee_params", methods=["GET"])
+def get_fee_params():
+    """
+    Retrieves fee parameters for a given community.
+
+    Returns:
+        dict: A dictionary containing fee parameters.
+    """
+    community = request.args.get('community')
+    fee_params = load_fee_params(community)
+    
+    if fee_params is not None:
+        return fee_params
+    else:
+        return {"error": "Data not found"}

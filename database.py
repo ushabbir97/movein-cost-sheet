@@ -1,30 +1,37 @@
-import logging
-from typing import Tuple
-import datetime as dt
-
+import os
 from sqlalchemy import create_engine
-import pandas as pd
+import pyodbc
+
 
 class Database:
-    def __init__(self, server, database, username, password, authentication):
-        self.server = server
-        self.database = database
-        self.username = username
-        self.password = password
-        self.engine = create_engine(f"mssql+pyodbc://{username}:{password}@{server}/{database}?driver=ODBC+Driver+17+for+SQL+Server&Authentication={authentication}")
-        self.conn = self.engine.connect()   
+    def __init__(self):
+        self.conn = None
+        self.engine = None
 
-if __name__ == "__main__":
-    from dotenv import load_dotenv
-    import os
-    import pandas as pd
+    def __enter__(self):
+        self.open_connection()
+        return self
 
-    load_dotenv()
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close_connection()
 
-    # db = Database(os.getenv("SQL_CONNECTION_STRING"))
-    db = Database(os.getenv("server"), os.getenv("database"), os.getenv("uid"), os.getenv("pwd"), os.getenv("authentication"))
-    query = "SELECT * FROM ico.movein_cost_sheet"
-    df_units = pd.read_sql(query, db.conn)
-    df_properties = df_units['property_name'].drop_duplicates().reset_index(drop=True)
-    print (df_properties)
-    print (df_units)
+    def open_connection(self):
+        conn_str = (
+            f"DRIVER=ODBC Driver 17 for SQL Server;"
+            f"SERVER={os.getenv('server')};DATABASE={os.getenv('database')};"
+            f"UID={os.getenv('uid')};PWD={os.getenv('pwd')};"
+            f"Authentication={os.getenv('authentication')}"
+        )
+        self.conn = pyodbc.connect(conn_str)
+        self.engine = create_engine(f"mssql+pyodbc://", creator=lambda: self.conn)
+
+    def close_connection(self):
+        if self.conn is not None:
+            self.conn.close()
+            self.conn = None
+            self.engine = None
+
+    def get_engine(self):
+        if self.engine is None:
+            raise RuntimeError("Database connection is not open.")
+        return self.engine

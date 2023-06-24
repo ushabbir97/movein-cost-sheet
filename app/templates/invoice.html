@@ -11,10 +11,11 @@
 
 <body>
     <div class="container">
-        <h3 class="title"> {{community}} <img class="logo-image" src="{{ url_for('static', filename='img/logo.jpg') }}"
-                alt="Logo Image">
-        </h3>
-        <h3 class="title">Cost Sheet</h3>
+        <img class="logo-image" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo Image">
+        <div class="col-12">
+            <h3 class="title">{{community}}</h3>
+            <h3 class="title-2">Cost Sheet</h3>
+        </div>
         <hr class="hr-cost-sheet">
         <h5 class="section-title">Resident Information</h5>
         <hr>
@@ -165,7 +166,8 @@
             provide the following:
         </p>
         <li class="small-list list">
-            <ul>Mereo for Cable TV & Internet &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(801) 478-7201
+            <ul>{{internet_util}} for Cable TV & Internet &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp;{{internet_contact}}
                 &nbsp; &nbsp;
                 &nbsp; &nbsp; &nbsp; &nbsp;(Call at least
                 seven days in advance to ensure set up is complete by move in)
@@ -225,14 +227,13 @@
             Unauthorized use,
             copying, or distribution of this information beyond ICO and the user for which it is intended is strictly
             prohibited.<img class="home-img" src="{{ url_for('static', filename='img/home.jpg') }}" alt="Home Image">
-        </p><br>
+        </p>
+        <br>
         <div class="print-button">
             <button onclick="window.print()" class="btn action-button btn-sm btn-xs print ">Print</button>
             <button onclick="history.back()" class="btn action-button btn-sm btn-xs back mr-2">Back</button>
         </div>
     </div>
-
-
 </body>
 
 </html>
