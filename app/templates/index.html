@@ -6,68 +6,57 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 
 <body>
+    <div id="page-loader">
+        <div class="loader"></div>
+    </div>
     <div class="container-fluid">
         <div class="card">
             <img class="logo" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo Image">
             <form id="invoiceForm" action="{{ url_for('main.invoice') }}" method="post">
                 <div id="progressbar">
                     <li class="active">General</li>
-                    <li class="">Tenant Info</li>
                     <li class="">Fees and Charges</li>
                 </div>
                 <div class="form-card">
-                    <h2 class="fs-title">General</h2>
-                    <div class="input-row">
-                        <label for="community">Community Name:</label>
-                        <select id="community" name="community" required>
-                            <option value="">--Select--</option>
-                        </select>
+                    <h2 class="fs-title">General and Tenant Info</h2>
+                    <div class="form-row">
+                        <div class="left-side">
+                            <div class="input-row">
+                                <label for="community">Community Name:</label>
+                                <select id="community" name="community">
+                                </select>
+                            </div>
+                            <div class="input-row">
+                                <label id="address_label" for="address">Unit Number Lookup:</label>
+                                <select id="address" name="address">
+                                </select>
+                            </div>
+                            <div class="input-row">
+                                <label for="move-in-date">Move-in Date:</label>
+                                <input type="date" id="move-in-date" name="move_in_date" required />
+                            </div>
+                        </div>
+                        <div class="right-side-general-section">
+                            <div class="input-row">
+                                <label for="tenant-name">Tenant Name:</label>
+                                <input type="text" id="tenant-name" name="tenant_name" required />
+                            </div>
+                            <div class="input-row">
+                                <label for="apt-number">Apartment Number:</label>
+                                <select id="apt-number" name="apt_number" class="dropdown" required />
+                                </select>
+                            </div>
+                            <div class="input-row">
+                                <label for="lease-term">Lease Term (months):</label>
+                                <input type="number" id="lease-term" name="lease_term" required />
+                            </div>
+                        </div>
                     </div>
-                    <span class="error-message"></span>
-                    <div class="input-row">
-                        <label for="internet-util">DirecTV Provider:</label>
-                        <input type="text" id="internet-util" name="internet_util" />
-                    </div>
-                    <div class="input-row">
-                        <label id="address_label" for="address">Street Address:</label>
-                        <select id="address" name="address">
-                            <option value="">---Select--</option>
-                        </select>
-                    </div>
-                    <div class="input-row">
-                        <label for="concession">Include One-time Concession:</label><br>
-                        <select id="concession" name="concession">
-                            <option value="">--Select--</option>
-                        </select>
-                    </div>
-                    <input type="button" id="nextBtn1" name="next" class="next action-button" value="Next" />
-                </div>
-                <div class="form-card-tenant">
-                    <h2 class="fs-title">Tenant Info</h2>
-                    <div class="input-row">
-                        <label for="tenant-name">Tenant Name:</label>
-                        <input type="text" id="tenant-name" name="tenant_name" required />
-                    </div>
-                    <div class="input-row">
-                        <label for="apt-number">Apartment Number:</label>
-                        <select id="apt-number" name="apt_number" class="dropdown" />
-                        <option value="">--Select--</option>
-                        </select>
-                    </div>
-                    <div class="input-row">
-                        <label for="move-in-date">Move-in Date:</label>
-                        <input type="date" id="move-in-date" name="move_in_date" required />
-                    </div>
-                    <div class="input-row">
-                        <label for="lease-term">Lease Term (months):</label>
-                        <input type="number" id="lease-term" name="lease_term" required />
-                    </div>
-                    <input type="button" id="nextBtn2" name="next" class="next next2 action-button" value="Next" />
-                    <input type="button" id="prevBtn1" name="previous" class="previous action-button"
-                        value="Previous" />
+                    <input type="button" id="nextBtn1" name="next" class="next action-button-next" value="Next" />
                 </div>
                 <div class="form-card-fee">
                     <h2 class="fs-title">Fees and Charges</h2>
@@ -110,7 +99,7 @@
                                     required />
                             </div>
                         </div>
-                        <div class="right-side">
+                        <div class="right-side-fee-section">
                             <div class="input-row">
                                 <label for="garage" class="label-text">Garage:</label>
                                 <input type="number" id="garage" name="garage" class="input-field" required />
@@ -148,12 +137,20 @@
                                     etc):</label>
                                 <input type="number" id="others" name="others" class="input-field" required />
                             </div>
+                            <input type="hidden" id="internet-util" name="internet_util" class="internet_util">
                             <input type="hidden" id="internet_contact" name="internet_contact" class="internet_contact">
+                            <input type="hidden" id="power_util" name="power_util" class="power_util">
+                            <input type="hidden" id="power_util_contact" name="power_util_contact"
+                                class="power_util_contact">
+                            <input type="hidden" id="gas_util" name="gas_util" class="gas_util">
+                            <input type="hidden" id="gas_util_contact" name="gas_util_contact" class="gas_util_contact">
+                            <input type="hidden" id="packages_util" name="packages_util" class="packages_util">
+                            <input type="hidden" id="packages_contact" name="packages_contact" class="packages_contact">
                         </div>
                     </div>
-                    <button type="button" class="button-btn submit action-button">Submit</button>
+                    <button type="button" class="button-btn submit action-button-submit">Submit</button>
                     <input type="button" id="prevBtn2" name="previous"
-                        class="button-btn previous previous2 action-button" value="Previous" />
+                        class="button-btn previous previous2 action-button-previous" value="Previous" />
                 </div>
             </form>
         </div>

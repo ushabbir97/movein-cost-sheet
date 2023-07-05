@@ -29,11 +29,6 @@ def invoice():
         "storage",
         "monthly_pet_fee",
         "insurance_waiver",
-        "monthly_concession",
-        "security_deposit",
-        "pet_deposit",
-        "pet_fee",
-        "smart_home_buyer_program",
     ]
 
     # Calculate the total due upon move-in
@@ -71,9 +66,9 @@ def get_fee_params():
     Returns:
         dict: A dictionary containing fee parameters.
     """
-    community = request.args.get('community')
+    community = request.args.get("community")
     fee_params = load_fee_params(community)
-    
+
     if fee_params is not None:
         return fee_params
     else:

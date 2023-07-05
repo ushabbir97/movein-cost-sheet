@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 
 def calculate_totals(form_data, fields, total_due_fields):
     """
-    This function calculates the total monthly rent and the total due based on the form data. 
+    This function calculates the total monthly rent and the total due based on the form data.
 
     :param form_data: Dict of form data received from the user.
     :param fields: List of field names to calculate total monthly rent.
@@ -13,10 +13,12 @@ def calculate_totals(form_data, fields, total_due_fields):
     :return: form_data updated with total_monthly_rent and total_due.
     """
 
-    total_monthly_rent = sum(float(form_data.get(field, 0)) for field in fields)
+    total_monthly_rent = sum(int(form_data.get(field, 0)) for field in fields)
+    monthly_concession = int(form_data.get("monthly_concession", 0))
+    total_monthly_rent -= monthly_concession
     form_data["total_monthly_rent"] = total_monthly_rent
 
-    total_due = sum(float(form_data.get(field, 0)) for field in total_due_fields)
+    total_due = sum(int(form_data.get(field, 0)) for field in total_due_fields)
     form_data["total_due"] = total_due
 
     return form_data
@@ -25,7 +27,7 @@ def calculate_totals(form_data, fields, total_due_fields):
 def format_dates(form_data):
     """
     This function formats and calculates the dates based on the form data.
-    It updates the move-in date format, calculates the lease end date, and formats the start and end dates. 
+    It updates the move-in date format, calculates the lease end date, and formats the start and end dates.
 
     :param form_data: Dict of form data received from the user.
     :return: form_data updated with the formatted dates.

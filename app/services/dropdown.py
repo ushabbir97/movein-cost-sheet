@@ -10,27 +10,42 @@ def load_dropdown_options():
     """
     dropdown_options = {}
     query = "SELECT * FROM ico.movein_cost_sheet"
-    
+
     with Database() as db:
         conn = db.get_engine()
         df_units = pd.read_sql(query, conn)
-    
+
     if not df_units.empty:
-        df_filtered = df_units.drop_duplicates(subset=["property_name", "street_address"])
+        df_filtered = df_units.drop_duplicates(
+            subset=["property_name", "street_address"]
+        )
 
         property_address_dict = {
-            property_name: df_filtered[(df_filtered["property_name"] == property_name) & (df_filtered["street_address"].notnull())]["street_address"].drop_duplicates().tolist()
+            property_name: df_filtered[
+                (df_filtered["property_name"] == property_name)
+                & (df_filtered["street_address"].notnull())
+            ]["street_address"]
+            .drop_duplicates()
+            .tolist()
             for property_name in df_filtered["property_name"].unique()
         }
 
         address_unit_dict = {
-            street_address: df_filtered[(df_filtered["street_address"] == street_address) & (df_filtered["unit_number"].notnull())]["unit_number"].drop_duplicates().tolist()
-            for street_address in df_filtered["street_address"].unique() if street_address
+            street_address: df_filtered[
+                (df_filtered["street_address"] == street_address)
+                & (df_filtered["unit_number"].notnull())
+            ]["unit_number"]
+            .drop_duplicates()
+            .tolist()
+            for street_address in df_filtered["street_address"].unique()
+            if street_address
         }
 
-        dropdown_options['communities'] = df_filtered["property_name"].tolist()
-        dropdown_options['addresses'] = property_address_dict
-        dropdown_options['apart_number'] = address_unit_dict
+        dropdown_options["communities"] = list(
+            set(df_filtered["property_name"].tolist())
+        )
+        dropdown_options["addresses"] = property_address_dict
+        dropdown_options["apart_number"] = address_unit_dict
 
         return dropdown_options
     else:
@@ -45,7 +60,9 @@ def load_fee_params(community):
     :param community: The name of the community.
     :return: A dictionary with fee parameters if found, None otherwise.
     """
-    query = f"SELECT * FROM ico.movein_cost_sheet_params WHERE property_name='{community}';"
+    query = (
+        f"SELECT * FROM ico.movein_cost_sheet_params WHERE property_name='{community}';"
+    )
 
     with Database() as db:
         conn = db.get_engine()
