@@ -1,9 +1,35 @@
 $(document).ready(function () {
+    $('.select2-dropdown').select2({
+        tags: true,
+        allowClear: true,
+        width: '100%', // Set a fixed width for the dropdown
+        placeholder: '--Select--'
+    }).on('change', function (e) {
+        var selectedText = e.target.value;
+        var renderedElement = $(this).next('.select2').find('.select2-selection__rendered');
+
+        renderedElement.html(selectedText);
+
+        // Apply inline CSS to fix the width and hide overflow
+        renderedElement.css({
+            'width': '200px',
+            'overflow': 'hidden',
+            'text-overflow': 'ellipsis',
+            'position': 'absolute',
+            'top': '0.5',
+            'bottom': '0',
+            'left': '0',
+            'right': '0',
+            'color': 'black',
+            'font-size': '14px',
+        });
+    });
+
     var current_fs, next_fs, previous_fs; // fieldsets
     var opacity;
     $(".next").click(function () {
         var isValid = true;
-        var inputs = $(this).parent().find("input[type='number']");
+        var inputs = $(this).parent().find("input[type='text'],input[type='number'], input[type='date']");
         inputs.each(function () {
             if ($(this).val().trim() === "") {
                 $(this).addClass("invalid");
@@ -33,38 +59,6 @@ $(document).ready(function () {
         }
     });
 
-    $(".next2").click(function () {
-        var isValid = true;
-        var inputs = $(this).parent().find("input[type='text'], input[type='number'],input[type='date']");
-        inputs.each(function () {
-            if ($(this).val().trim() === "") {
-                $(this).addClass("invalid");
-                $(this).siblings(".error-message").text("This field is required");
-                isValid = false;
-            } else {
-                $(this).removeClass("invalid");
-                $(this).siblings(".error-message").text("");
-            }
-        });
-        if (isValid) {
-            current_fs = $(this).parent();
-            next_fs = $(this).parent().next();
-
-            // Add Class Active
-            $("#progressbar li:eq(1)").eq($("fieldset").index(next_fs)).removeClass("active");
-            $("#progressbar li:eq(2)").addClass("active");
-
-            // Show the next fieldset
-            next_fs.show().css({
-                'opacity': 1
-            });
-
-            // Hide the current fieldset
-            current_fs.hide();
-            updateProgressLine();
-        }
-    });
-
     $(".previous2").click(function () {
         current_fs = $(this).parent();
         previous_fs = $(this).parent().prev();
@@ -90,7 +84,7 @@ $(document).ready(function () {
 
     $(".submit").click(function () {
         var isValid = true;
-        var inputs = $(this).parent().find("input[type='text'], input[type='number']");
+        var inputs = $(this).parent().find("input[type='number']");
         inputs.each(function () {
             if ($(this).val().trim() === "") {
                 $(this).addClass("invalid");
@@ -283,22 +277,12 @@ $(document).ready(function () {
         }
 
         populateDropdown("#address", dropdownData.addresses[community] || []);
-        populateDropdown("#provider", dropdownData.providers[community] || []);
-
         if (dropdownData.addresses[community].length === 0) {
             $("#address").hide();
             $("#address_label").hide();
         } else {
             $("#address").show();
             $("#address_label").show();
-        }
-
-        if (dropdownData.providers[community].length === 0) {
-            $("#provider").hide();
-            $("#provider_label").hide();
-        } else {
-            $("#provider").show();
-            $("#provider_label").show();
         }
 
         // Populate the apart-number dropdown based on the selected address
@@ -345,5 +329,4 @@ function clearFields() {
     $("#tenant-name").val("");
     $("#move-in-date").val("");
     $("#lease-term").val("");
-    // ... Clear other fields here
 }

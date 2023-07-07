@@ -7,6 +7,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- dropdown functionality -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 </head>
 
 <body>
@@ -27,12 +30,11 @@
                         <div class="left-side">
                             <div class="input-row">
                                 <label for="community">Community Name:</label>
-                                <select id="community" name="community">
-                                </select>
+                                <select id="community" name="community" class="select2-dropdown"></select>
                             </div>
                             <div class="input-row">
                                 <label id="address_label" for="address">Unit Number Lookup:</label>
-                                <select id="address" name="address">
+                                <select id="address" name="address" class="select2-dropdown">
                                 </select>
                             </div>
                             <div class="input-row">
@@ -47,7 +49,7 @@
                             </div>
                             <div class="input-row">
                                 <label for="apt-number">Apartment Number:</label>
-                                <select id="apt-number" name="apt_number" class="dropdown" required />
+                                <select id="apt-number" name="apt_number" class="select2-dropdown ">
                                 </select>
                             </div>
                             <div class="input-row">

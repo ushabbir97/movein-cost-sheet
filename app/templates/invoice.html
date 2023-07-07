@@ -6,7 +6,6 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 </head>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -174,30 +173,37 @@
             provide the following:
         </p>
         <li class="small-list list">
-            <ul>{{internet_util}} for Cable TV & Internet &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp;{{internet_contact}}
+            {% if internet_util %}
+            <ul>{{ internet_util }} for Cable TV & Internet &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp;{{ internet_contact }}
                 &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp;(Call at least
-                seven days in advance to ensure set up is complete by move in)
+                &nbsp; &nbsp; &nbsp; &nbsp;(Call at least seven days in advance to ensure set up is complete by move in)
             </ul>
-            <ul>{{power_util}} for Power Utils &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp;{{power_util_contact}}
+            {% endif %}
+
+            {% if power_util %}
+            <ul>{{ power_util }} for Power Utils &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp;{{ power_util_contact }}
                 &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp;(Call at least
-                seven days in advance to ensure set up is complete by move in)
+                &nbsp; &nbsp; &nbsp; &nbsp;(Call at least seven days in advance to ensure set up is complete by move in)
             </ul>
-            <ul>{{gas_util}} for Gas Utils &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp;{{gas_util_contact}}
+            {% endif %}
+
+            {% if gas_util %}
+            <ul>{{ gas_util }} for Gas Utils &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp;{{ gas_util_contact }}
                 &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp;(Call at least
-                seven days in advance to ensure set up is complete by move in)
+                &nbsp; &nbsp; &nbsp; &nbsp;(Call at least seven days in advance to ensure set up is complete by move in)
             </ul>
-            <ul>{{packages_util}} for Package Utils &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp;{{packages_contact}}
+            {% endif %}
+
+            {% if packages_util %}
+            <ul>{{ packages_util }} for Package Utils &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp;{{ packages_contact }}
                 &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp;(Call at least
-                seven days in advance to ensure set up is complete by move in)
+                &nbsp; &nbsp; &nbsp; &nbsp;(Call at least seven days in advance to ensure set up is complete by move in)
             </ul>
+            {% endif %}
             <ul>Water, sewer, trash, unit & common area power/gas, and Valet Waste trash service will be set up for you
                 and billed by BillEase but must be paid to the leasing office each month. Your first bill will have a
                 one-time $25.00 set up fee added to it.
@@ -230,7 +236,7 @@
             </div>
             <div class="col-md-6 right-portion">
                 <hr class="half-line-right">
-                <p class="date">Date</p>
+                <p class="date media-date">Date</p>
             </div>
             <div class="col-md-6 left-portion">
                 <hr class="half-line-left">
@@ -238,15 +244,15 @@
             </div>
             <div class="col-md-6 right-portion">
                 <hr class="half-line-right">
-                <p class="date">Date</p>
+                <p class="date media-date">Date</p>
             </div>
             <div class="col-md-6 left-portion">
                 <hr class="half-line-left">
-                <p class="p-size">{{community}}</p>
+                <p class="p-size">{{community}} Agent</p>
             </div>
             <div class="col-md-6 right-portion">
                 <hr class="half-line-right">
-                <p class="date">Date</p>
+                <p class="date media-date">Date</p>
             </div>
         </div>
         <p class="justified">© ICO Multifamily Property Management 2016. For use only within ICO Companies organization.
@@ -270,14 +276,13 @@
             buttons.forEach((button) => {
                 button.style.display = 'none';
             });
-
             // Configure the html2pdf settings
             const options = {
-                margin: 5,
+                // margin: 5,
                 filename: '{{community}} Cost Sheet.pdf',
-                image: { type: 'jpeg', quality: 0.98 }, // Set image quality to high
-                html2canvas: { scale: 2 }, // Increase scale for higher resolution
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                image: { type: 'jpeg', quality: 1 }, // Set image quality to high
+                html2canvas: { scale: 4 }, // Increase scale for higher resolution
+                jsPDF: { unit: 'mm', format: [310, 397], orientation: 'portrait' } // Set custom format to fit a single A4 page
             };
 
             // Convert the modified HTML to PDF with the specified options
@@ -287,10 +292,6 @@
                 .save();
         }
     </script>
-
-
-
-
 </body>
 
 </html>

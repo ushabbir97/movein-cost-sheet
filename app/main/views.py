@@ -2,6 +2,7 @@ from flask import jsonify, render_template, request
 from . import bp
 from ..services.calculations import calculate_totals, format_dates
 from ..services.dropdown import load_dropdown_options, load_fee_params
+import locale
 
 @bp.route("/")
 def index():
@@ -42,6 +43,30 @@ def invoice():
 
     form_data = calculate_totals(form_data, fields, total_due_fields)
     form_data = format_dates(form_data)
+    locale.setlocale(locale.LC_ALL, "en_US")
+    fields_to_format = [
+        "admin_fee",
+        "app_fee",
+        "security_deposit",
+        "pet_deposit",
+        "pet_fee",
+        "smart_home_buyer_program",
+        "total_monthly_rent",
+        "total_due",
+        "monthly_rent",
+        "media_automation",
+        "others",
+        "garage",
+        "carport",
+        "monthly_pet_fee",
+        "storage",
+        "insurance_waiver",
+        "monthly_concession",
+        "one_time_con",
+    ]
+
+    for field in fields_to_format:
+        form_data[field] = locale.format("%d", float(form_data[field]), grouping=True)
 
     return render_template("invoice.html", **form_data)
 
