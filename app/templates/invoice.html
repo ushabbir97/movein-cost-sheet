@@ -16,15 +16,13 @@
             <img class="logo-image" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo Image">
         </div>
         <div class="col-12">
-            <h3 class="title">{{community}}</h3>
+            <h6 class="title">{{community}}</h6>
         </div>
-
         <div class="col-12">
-            <h3 class="title-2">Cost Sheet</h3>
+            <h6 class="title-2">Cost Sheet</h6>
         </div>
-
         <hr class="hr-cost-sheet">
-        <h5 class="section-title">Resident Information</h5>
+        <h6 class="section-title">Resident Information</h6>
         <hr>
         <div class="row">
             <div class="col-md-6 left-portion">
@@ -64,7 +62,7 @@
                 </table>
             </div>
         </div>
-        <h5 class="section-title">Cost:</h5>
+        <h6 class="section-title">Cost:</h6>
         <hr>
         <div class="row">
             <div class="col-md-6 left-portion">
@@ -165,7 +163,7 @@
                 </p>
             </div>
         </div>
-        <h5 class="section-title">Move-In Day</h5>
+        <h6 class="section-title">Move-In Day</h6>
         <hr>
         <p class="justified">Your move in day is of the utmost importance to us. All parties who are on the lease must
             be present to sign
@@ -204,6 +202,7 @@
                 &nbsp; &nbsp; &nbsp; &nbsp;(Call at least seven days in advance to ensure set up is complete by move in)
             </ul>
             {% endif %}
+
             <ul>Water, sewer, trash, unit & common area power/gas, and Valet Waste trash service will be set up for you
                 and billed by BillEase but must be paid to the leasing office each month. Your first bill will have a
                 one-time $25.00 set up fee added to it.
@@ -216,7 +215,7 @@
                 apply).
             </ul>
         </li>
-        <h5 class="section-title">Resident/Manager Acceptance</h5>
+        <h6 class="section-title">Resident/Manager Acceptance</h6>
         <hr>
         <p class="justified">I understand my application fee and administration fee are required to reserve my apartment
             home. Any holding
@@ -236,7 +235,7 @@
             </div>
             <div class="col-md-6 right-portion">
                 <hr class="half-line-right">
-                <p class="date media-date">Date</p>
+                <p class="date">Date</p>
             </div>
             <div class="col-md-6 left-portion">
                 <hr class="half-line-left">
@@ -244,7 +243,7 @@
             </div>
             <div class="col-md-6 right-portion">
                 <hr class="half-line-right">
-                <p class="date media-date">Date</p>
+                <p class="date">Date</p>
             </div>
             <div class="col-md-6 left-portion">
                 <hr class="half-line-left">
@@ -252,7 +251,7 @@
             </div>
             <div class="col-md-6 right-portion">
                 <hr class="half-line-right">
-                <p class="date media-date">Date</p>
+                <p class="date">Date</p>
             </div>
         </div>
         <p class="justified">© ICO Multifamily Property Management 2016. For use only within ICO Companies organization.
@@ -281,8 +280,8 @@
                 // margin: 5,
                 filename: '{{community}} Cost Sheet.pdf',
                 image: { type: 'jpeg', quality: 1 }, // Set image quality to high
-                html2canvas: { scale: 4 }, // Increase scale for higher resolution
-                jsPDF: { unit: 'mm', format: [310, 397], orientation: 'portrait' } // Set custom format to fit a single A4 page
+                html2canvas: { scale: 1 }, // Increase scale for higher resolution
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } // Set custom format to fit a single A4 page
             };
 
             // Convert the modified HTML to PDF with the specified options
@@ -292,6 +291,7 @@
                 .save();
         }
     </script>
+
 </body>
 
 </html>

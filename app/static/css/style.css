@@ -179,7 +179,6 @@ label {
     margin-left: 30px;
 }
 
-
 .form-card input[type="text"] {
     width: 100% !important;
     padding: 10px !important;
@@ -191,7 +190,7 @@ label {
 .input-row {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .input-row label {
@@ -208,7 +207,7 @@ label {
     width: 100%;
     max-width: 100ch;
     /* Set the maximum width relative to the character width */
-    height: 100vh;
+    height: 110vh;
     /* Set the height relative to the viewport height */
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
     display: none;
@@ -293,7 +292,7 @@ input[type="number"] {
 hr {
     border-top: 5px solid #dd0404;
     margin-top: 2px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .title {
@@ -306,18 +305,20 @@ hr {
 .title-2 {
     margin-top: 5px;
     font-weight: bold;
-    text-align: center;
+    text-align: center !important;
     margin-bottom: 10px;
 }
 
 .section-title {
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
+    margin-top: 10px;
 }
 
 .subsection-title {
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
+    margin-top: 5px;
 }
 
 .table {
@@ -326,7 +327,7 @@ hr {
 
 .table th,
 .table td {
-    padding: 8px;
+    padding: 5px;
     border-top: none;
 }
 
@@ -362,29 +363,29 @@ ul:before {
 .list {
     list-style-type: none;
     text-indent: -3em;
+    margin-top: -2em;
 }
 
 .justified {
     text-align: justify;
-    font-size: 12px;
+    font-size: 10px;
+    margin-top: 7px;
 }
 
 .half-line-left {
     width: 100%;
-    margin-top: 20px;
     border-top: 1px solid #030303 !important;
     float: left;
 }
 
 .half-line-right {
     width: 50%;
-    margin-top: 20px;
     border-top: 1px solid #030303 !important;
     float: right;
 }
 
 .small-list {
-    font-size: 12px;
+    font-size: 10px;
     text-align: justify;
 }
 
@@ -399,8 +400,8 @@ ul:before {
 }
 
 .row {
-    font-size: 12px;
-    margin-bottom: -1mm;
+    font-size: 10px;
+    margin-bottom: -5mm;
 }
 
 .p-size {
@@ -408,8 +409,9 @@ ul:before {
 }
 
 .date {
-    margin-top: 27px;
-    margin-left: 270px;
+    margin-top: 3px;
+    margin-right: -2.1em !important;
+    float: right;
     font-weight: bold;
 }
 
@@ -420,7 +422,7 @@ ul:before {
 
 .hr-charges {
     border: 2px solid #c0baba;
-    margin-top: 8px;
+    margin-top: 0.5px;
 }
 
 .p-concession {
@@ -445,12 +447,12 @@ ul:before {
 }
 
 .table-money-due-upon-move {
-    margin-bottom: 11px;
+    margin-bottom: -1mm;
 }
 
 .h6-upon-move {
     font-weight: bold;
-    margin-top: 40px;
+    margin-top: 25px;
 }
 
 .hr-cost-sheet {
@@ -459,7 +461,7 @@ ul:before {
 
 .logo-image {
     float: right;
-    width: 7%;
+    width: 6%;
     margin-bottom: -1mm;
 }
 
@@ -558,4 +560,8 @@ ul {
 
 .select2-selection__arrow {
     margin-top: 5px;
+}
+
+.select2-dropdown ::before {
+    display: none;
 }

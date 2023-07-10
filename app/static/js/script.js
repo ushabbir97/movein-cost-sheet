@@ -2,17 +2,41 @@ $(document).ready(function () {
     $('.select2-dropdown').select2({
         tags: true,
         allowClear: true,
-        width: '100%', // Set a fixed width for the dropdown
-        placeholder: '--Select--'
+        width: '100%',
+        placeholder: '--Select--',
+        createTag: function (params) {
+            return null;
+        },
+        escapeMarkup: function (markup) {
+            return markup;
+        },
+        templateResult: function (result) {
+            if (result.loading) {
+                return 'Searching...';
+            }
+            return result.text;
+        },
+        language: {
+            noResults: function () {
+                return 'No results found';
+            }
+        }
     }).on('change', function (e) {
         var selectedText = e.target.value;
         var renderedElement = $(this).next('.select2').find('.select2-selection__rendered');
 
         renderedElement.html(selectedText);
 
-        // Apply inline CSS to fix the width and hide overflow
+        var containerWidth = $(this).next('.select2').width(); // Get the width of the container
+        var selectedTextWidth = renderedElement.outerWidth(); // Get the width of the rendered element
+
+        // Adjust the width of the rendered element if it exceeds the available space
+        if (selectedTextWidth > containerWidth) {
+            var availableWidth = containerWidth - 10; // Adjusting for padding and margin
+            renderedElement.width(availableWidth);
+        }
+
         renderedElement.css({
-            'width': '200px',
             'overflow': 'hidden',
             'text-overflow': 'ellipsis',
             'position': 'absolute',
