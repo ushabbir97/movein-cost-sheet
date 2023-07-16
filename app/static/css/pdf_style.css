@@ -1,0 +1,293 @@
+@page {
+    size: letter;
+    margin: 1cm;
+    /* Adjust the margin size as per your requirement */
+  }
+  
+  body {
+    margin: 0;
+    /* Reset the default body margin */
+  }
+  
+  .logo {
+    float: left;
+    width: 79px;
+  }
+  
+  .container {
+    margin-top: 30px;
+  }
+  
+  hr {
+    border-top: 5px solid #dd0404;
+    margin-top: 1px;
+    margin-bottom: 0px;
+  }
+  
+  .title {
+    margin-top: 1px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: -1mm;
+  }
+  
+  .title-2 {
+    margin-top: 5px;
+    font-weight: bold;
+    text-align: center !important;
+    margin-bottom: 5px;
+  }
+  
+  .section-title {
+    font-weight: bold;
+    margin-bottom: 1px;
+    margin-top: 2px;
+  }
+  .resident-title {
+    font-weight: bold;
+    margin-bottom: 1px;
+    margin-top: 2px;
+  }
+  
+  .subsection-title {
+    font-weight: bold;
+    margin-bottom: 1px;
+    margin-top: -0rem;
+  }
+  
+  .table {
+    margin-bottom: 0;
+  }
+  
+  .table th,
+  .table td {
+    padding: 5px;
+    border-top: none;
+  }
+  
+  .table td {
+    border-top: 1px solid #ddd;
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+  
+  .logo-row {
+    margin-bottom: -1mm;
+  }
+  
+  ul:before {
+    content: "-";
+    margin-right: 10px;
+  }
+  
+  .list {
+    list-style-type: none;
+    text-indent: -3em;
+    margin-top: -1em;
+    margin-bottom: -1.5em;
+  }
+  
+  .justified {
+    text-align: justify;
+    font-size: 10px;
+    margin-top: 7px;
+  }
+  .justified-text {
+    margin-top: -2em;
+    text-align: justify;
+    font-size: 10px;
+    float: left;
+  }
+  .half-line-left-one {
+    width: 50%;
+    height: 1px;
+    background-color: black;
+    float: left;
+    margin-top: 10px;
+  }
+  .half-line-left-two {
+    width: 50%;
+    height: 1px;
+    background-color: black;
+    float: left;
+    margin-top: -0.3em;
+  }
+  .half-line-left-three {
+    width: 50%;
+    height: 1px;
+    background-color: black;
+    float: left;
+    margin-top: -1.6em;
+  }
+  
+  .half-line-right-one {
+    width: 30%;
+    height: 1px;
+    background-color: black;
+    margin-top: -1.4em;
+    float: right;
+  }
+  .half-line-right-two {
+    width: 30%;
+    height: 1px;
+    background-color: black;
+    margin-top: -1.6rem;
+    float: right;
+  }
+  .half-line-right-three {
+    width: 30%;
+    height: 1px;
+    background-color: black;
+    margin-top: -2.5rem;
+    float: right;
+  }
+  
+  .small-list {
+    list-style-type: none;
+    padding: 0;
+    font-size: 10px;
+    text-align: justify;
+  }
+  
+  .small-list ul {
+    padding-left: 20px;
+    text-indent: -14px;
+  }
+  
+  .row {
+    font-size: 10px;
+    margin-bottom: -5mm;
+  }
+  
+  .p-size {
+    font-weight: bold;
+    margin-top: -0.7em;
+    float: left;
+  }
+  .p-size-two {
+    font-weight: bold;
+    margin-top: -1.3rem;
+    float: left;
+  }
+  .p-size-three {
+    font-weight: bold;
+    margin-top: -3.4em;
+    float: left;
+  }
+  
+  .date-one {
+    margin-top: -2rem;
+    margin-right: 195px !important;
+    float: right;
+    font-weight: bold;
+  }
+  .date-two {
+    margin-top: -2.7rem;
+    margin-right: 195px !important;
+    float: right;
+    font-weight: bold;
+  }
+  .date-three {
+    margin-top: -4.7em;
+    margin-right: 195px !important;
+    float: right;
+    font-weight: bold;
+  }
+  
+  .home-img {
+    float: right;
+    width: 30px;
+  }
+  
+  .charges {
+    border: 2px solid #c0baba;
+    margin-top: -0.2em;
+  }
+  
+  .p-concession {
+    float: right;
+    margin-top: -1.5em;
+  }
+  
+  .row-value {
+    text-align: right;
+  }
+  
+  .td-right-bold {
+    text-align: right;
+    font-weight: bold;
+  }
+  
+  .td-bold {
+    font-weight: bold;
+  }
+  
+  .due-upon-move {
+    border: 2px solid #c0baba;
+    margin-top: -0.2em;
+  }
+  
+  .cost-sheet {
+    border-top: 3px solid #ac0e0e;
+    margin-bottom: 5px;
+  }
+  
+  .logo-image {
+    float: right;
+    width: 6%;
+    margin-bottom: -1mm;
+  }
+  
+  .concession-row {
+    color: red;
+  }
+  
+  .download,
+  .back {
+    float: right;
+  }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-indent: 0;
+  }
+  .row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .left-portion {
+    flex-basis: 50%;
+    padding-right: 15px;
+  }
+  
+  .right-portion {
+    flex-basis: 50%;
+    padding-left: 15px;
+  }
+  
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .row-end {
+    font-size: 10px;
+    margin-bottom: -5mm;
+    align-items: flex-start;
+  }
+  
+  .money-due {
+    margin-top: 45px;
+  }
+  

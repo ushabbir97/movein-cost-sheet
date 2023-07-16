@@ -1,8 +1,11 @@
-from flask import jsonify, render_template, request
+from flask import jsonify, render_template, make_response, request
 from . import bp
 from ..services.calculations import calculate_totals, format_dates
 from ..services.dropdown import load_dropdown_options, load_fee_params
 import locale
+import json
+import weasyprint
+
 
 @bp.route("/")
 def index():
@@ -68,7 +71,7 @@ def invoice():
     for field in fields_to_format:
         form_data[field] = locale.format("%d", float(form_data[field]), grouping=True)
 
-    return render_template("invoice.html", **form_data)
+    return render_template("invoice.html", form_data=form_data)
 
 
 @bp.route("/get_form_data", methods=["GET"])
@@ -98,3 +101,28 @@ def get_fee_params():
         return fee_params
     else:
         return {"error": "Data not found"}
+
+
+@bp.route("/invoice_pdf", methods=["POST"])
+def invoice_pdf():
+    """
+    Generate and download a PDF invoice based on form data.
+
+    Returns:
+        Response: Flask response with the PDF data as an attachment.
+    """
+
+    form_data = request.form.to_dict().get("form_data")
+    form_data = form_data.replace("'", '"')
+    form_data = json.loads(form_data)
+
+    rendered_html = render_template("invoice_pdf.html", form_data=form_data)
+    html = weasyprint.HTML(string=rendered_html, base_url=request.host_url)
+    pdf = html.write_pdf()
+    filename = f"{form_data['tenant_name']} {form_data['address']} cost sheet.pdf"
+
+    response = make_response(pdf)
+    response.headers["Content-Type"] = "application/pdf"
+    response.headers["Content-Disposition"] = f"attachment; filename={filename}"
+
+    return response

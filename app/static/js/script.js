@@ -51,20 +51,44 @@ $(document).ready(function () {
 
     var current_fs, next_fs, previous_fs; // fieldsets
     var opacity;
-    $(".next").click(function () {
+    $(".next").click(function() {
         var isValid = true;
-        var inputs = $(this).parent().find("input[type='text'],input[type='number'], input[type='date']");
-        inputs.each(function () {
-            if ($(this).val().trim() === "") {
-                $(this).addClass("invalid");
-                $(this).siblings(".error-message").text("This field is required");
-                isValid = false;
-            } else {
-                $(this).removeClass("invalid");
-                $(this).siblings(".error-message").text("");
-            }
-        });
+        var inputs = $(this).parent().find("input[type='text'], input[type='number'], input[type='date']");
+        var selectInputs = $(this).parent().find("select");
 
+        inputs.each(function() {
+          if ($(this).val().trim() === "") {
+            $(this).addClass("invalid");
+            $(this).siblings(".error-message").text("This field is required");
+            isValid = false;
+          } else {
+            $(this).removeClass("invalid");
+            $(this).siblings(".error-message").text("");
+          }
+      
+          // Remove "invalid" class on input focus
+          $(this).on("focus", function() {
+            $(this).removeClass("invalid");
+            $(this).siblings(".error-message").text("");
+          });
+        });
+      
+        selectInputs.each(function() {
+          var $select = $(this);
+      
+          if ($select.val() === "") {
+            $select.parents('.form-group').addClass('is-invalid');
+            isValid = false;
+          } else {
+            $select.parents('.form-group').removeClass('is-invalid');
+          }
+      
+          // Remove "is-invalid" class on select change
+          $select.on("change", function() {
+            $select.parents('.form-group').removeClass('is-invalid');
+          });
+        });
+      
         if (isValid) {
             current_fs = $(this).parent();
             next_fs = $(this).parent().next();
@@ -124,50 +148,54 @@ $(document).ready(function () {
             $("#invoiceForm").submit();
         }
     });
-
-    // Function to show the current form step
-    function showFormStep(stepIndex) {
-        var formSteps = document.getElementsByClassName("form-card");
-        for (var i = 0; i < formSteps.length; i++) {
-            formSteps[i].style.display = "none";
-        }
-        formSteps[stepIndex].style.display = "block";
+  
+// Function to show the current form step
+function showFormStep(stepIndex) {
+    var formSteps = document.getElementsByClassName("form-card");
+    for (var i = 0; i < formSteps.length; i++) {
+        formSteps[i].style.display = "none";
     }
+    formSteps[stepIndex].style.display = "block";
+}
 
-    // Function to navigate to the next form step
-    function nextFormStep() {
-        var currentStep = document.querySelector(".form-card.active");
+// Function to navigate to the next form step
+function nextFormStep() {
+    var currentStep = document.querySelector(".form-card.active");
+    if (currentStep) {
         var currentStepIndex = Array.prototype.indexOf.call(currentStep.parentNode.children, currentStep);
         showFormStep(currentStepIndex + 1);
         updateProgressBar(currentStepIndex + 1);
     }
+}
 
-    // Function to navigate to the previous form step
-    function previousFormStep() {
-        var currentStep = document.getElementsByClassName("form-card-tenant active")[0];
+// Function to navigate to the previous form step
+function previousFormStep() {
+    var currentStep = document.querySelector(".form-card.active");
+    if (currentStep) {
         var currentStepIndex = Array.prototype.indexOf.call(currentStep.parentNode.children, currentStep);
         showFormStep(currentStepIndex - 1);
         updateProgressBar(currentStepIndex - 1);
     }
+}
 
-    // Function to update the progress bar
-    function updateProgressBar(stepIndex) {
-        var progressSteps = document.getElementById("progressbar").getElementsByTagName("li");
-        for (var i = 0; i < progressSteps.length; i++) {
-            if (i < stepIndex) {
-                progressSteps[i].className = "active";
-            } else if (i === stepIndex) {
-                progressSteps[i].className = "active current";
-            } else {
-                progressSteps[i].className = "";
-            }
+// Function to update the progress bar
+function updateProgressBar(stepIndex) {
+    var progressSteps = document.getElementById("progressbar").getElementsByTagName("li");
+    for (var i = 0; i < progressSteps.length; i++) {
+        if (i < stepIndex) {
+            progressSteps[i].classList.add("active");
+        } else if (i === stepIndex) {
+            progressSteps[i].classList.add("active", "current");
+        } else {
+            progressSteps[i].classList.remove("active", "current");
         }
     }
+}
 
-    showFormStep(0);
+showFormStep(0);
 
-    document.getElementById("nextBtn1").addEventListener("click", nextFormStep);
-    document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
+document.getElementById("nextBtn1").addEventListener("click", nextFormStep);
+document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
 
     let dropdownData;
     let initialLoad = true;
@@ -224,11 +252,10 @@ $(document).ready(function () {
         loadData();
     });
 
-    // Rest of your code...
 
     $("#community").change(function () {
         var community = $(this).val();
-
+      
         // Only make the API request and show the loader if it's not the initial load
         if (!initialLoad) {
             // Call the new API and populate additional fields
@@ -294,11 +321,13 @@ $(document).ready(function () {
                     $("#lease-term").val(response.lease_term);
                     // ...
                 },
+                
                 error: function (xhr, status, error) {
                     console.log("Error calling new API:", error);
                 },
             });
         }
+        console.log(dropdownData)
 
         populateDropdown("#address", dropdownData.addresses[community] || []);
         if (dropdownData.addresses[community].length === 0) {
@@ -353,4 +382,38 @@ function clearFields() {
     $("#tenant-name").val("");
     $("#move-in-date").val("");
     $("#lease-term").val("");
+    // ... Clear other fields here
 }
+
+function goBack() {
+    if (history.state && history.state.fromDownload) {
+        history.go(-3);  // Navigate back two steps if coming from download
+    } else {
+        history.back();  // Navigate back one step otherwise
+    }
+}
+
+
+if (sessionStorage.getItem('form_data')) {
+    const formData = JSON.parse(sessionStorage.getItem('form_data'));
+    const formElement = document.getElementById('invoiceForm');
+    for (let key in formData) {
+        if (formData.hasOwnProperty(key)) {
+            const inputElement = document.createElement('input');
+            inputElement.type = 'hidden';
+            inputElement.name = key;
+            inputElement.value = formData[key];
+            formElement.appendChild(inputElement);
+        }
+    }
+    sessionStorage.removeItem('form_data');
+    formElement.submit();
+}
+
+
+ // Store form data in session storage before navigating away from the page
+ window.onbeforeunload = function() {
+    const formElement = document.getElementById('invoiceForm');
+    const formData = new FormData(formElement);
+    sessionStorage.setItem('form_data', JSON.stringify(Object.fromEntries(formData.entries())));
+};
