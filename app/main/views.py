@@ -112,10 +112,7 @@ def invoice_pdf():
         Response: Flask response with the PDF data as an attachment.
     """
 
-    form_data = request.form.to_dict().get("form_data")
-    form_data = form_data.replace("'", '"')
-    form_data = json.loads(form_data)
-
+    form_data = json.loads(request.form.get("form_data").replace("'", '"'))
     rendered_html = render_template("invoice_pdf.html", form_data=form_data)
     html = weasyprint.HTML(string=rendered_html, base_url=request.host_url)
     pdf = html.write_pdf()
