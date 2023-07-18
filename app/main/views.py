@@ -116,7 +116,7 @@ def invoice_pdf():
     rendered_html = render_template("invoice_pdf.html", form_data=form_data)
     html = weasyprint.HTML(string=rendered_html, base_url=request.host_url)
     pdf = html.write_pdf()
-    filename = f"{form_data['tenant_name']} {form_data['address']} cost sheet.pdf"
+    filename = f"{form_data['tenant_name']} {form_data['apt_number']} Cost Sheet.pdf"
 
     response = make_response(pdf)
     response.headers["Content-Type"] = "application/pdf"

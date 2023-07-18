@@ -274,7 +274,6 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
                         "monthly_concession",
                         "monthly_rent",
                         "one_time_con",
-                        "lease_term",
                         "pet_deposit",
                         "pet_fee",
                         "app_fee",
@@ -318,7 +317,6 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
                     $("#gas_util_contact").val(response.gas_util_contact);
                     $("#packages_util").val(response.packages_util);
                     $("#packages_contact").val(response.packages_contact);
-                    $("#lease-term").val(response.lease_term);
                     // ...
                 },
                 
@@ -381,7 +379,6 @@ function clearFields() {
     $("#internet_contact").val("");
     $("#tenant-name").val("");
     $("#move-in-date").val("");
-    $("#lease-term").val("");
     // ... Clear other fields here
 }
 
