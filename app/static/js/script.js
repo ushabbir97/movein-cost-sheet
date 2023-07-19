@@ -55,7 +55,7 @@ $(document).ready(function () {
         var isValid = true;
         var inputs = $(this).parent().find("input[type='text'], input[type='number'], input[type='date']");
         var selectInputs = $(this).parent().find("select");
-
+      
         inputs.each(function() {
           if ($(this).val().trim() === "") {
             $(this).addClass("invalid");
@@ -216,7 +216,9 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
             // Example: Populate the address dropdown based on the selected community
             var selectedCommunity = $("#community").val();
             populateDropdown("#address", dropdownData.addresses[selectedCommunity] || []);
-
+            populateDropdown("#city", dropdownData.city[selectedCommunity] || []);
+            populateDropdown("#state", dropdownData.state[selectedCommunity] || []);
+            populateDropdown("#zip", dropdownData.zip[selectedCommunity] || []);
             // Example: Populate the apartment number dropdown based on the selected address
             var selectedAddress = $("#address").val();
             populateDropdown("#apt-number", dropdownData.apart_number[selectedAddress] || []);
@@ -255,7 +257,11 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
 
     $("#community").change(function () {
         var community = $(this).val();
-      
+          // Update hidden input fields with city, state, and zip data when a community is selected
+          $("#city-hidden").val(dropdownData.city[community] || '');
+          $("#state-hidden").val(dropdownData.state[community] || '');
+          $("#zip-hidden").val(dropdownData.zip[community] || '');
+
         // Only make the API request and show the loader if it's not the initial load
         if (!initialLoad) {
             // Call the new API and populate additional fields
@@ -340,11 +346,15 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
         var selectedAddress = $("#address").val();
         populateDropdown("#apt-number", dropdownData.apart_number[selectedAddress] || []);
     });
-
     $("#address").change(function () {
-        // Populate the apart-number dropdown based on the selected address
+        // When the address dropdown changes (a new address is selected), this function is executed.
+    
+        // Get the selected address from the dropdown
         var selectedAddress = $(this).val();
-        populateDropdown("#apt-number", dropdownData.apart_number[selectedAddress] || []);
+        var apartmentNumber = (dropdownData.apart_number[selectedAddress] || [])[0] || '';
+    
+        // Set the value of the hidden input field to the selected apartment number
+        $("#apt-number-hidden").val(apartmentNumber);
     });
 
     function populateDropdown(selector, options) {
