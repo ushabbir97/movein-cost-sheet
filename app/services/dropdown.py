@@ -19,8 +19,36 @@ def load_dropdown_options():
     
     if not df_units.empty:
         df_filtered = df_units.drop_duplicates(
-            subset=["property_name", "street_address"]
+            subset=["property_name", "street_address", "city", "state", "zip"]
         )
+
+        property_city_dict = {
+            property_name: df_filtered[
+                (df_filtered["property_name"] == property_name)
+                & (df_filtered["city"].notnull())
+            ]["city"]
+            .drop_duplicates()
+            .tolist()
+            for property_name in df_filtered["property_name"].unique()
+        }
+        property_state_dict = {
+            property_name: df_filtered[
+                (df_filtered["property_name"] == property_name)
+                & (df_filtered["state"].notnull())
+            ]["state"]
+            .drop_duplicates()
+            .tolist()
+            for property_name in df_filtered["property_name"].unique()
+        }
+        property_zip_dict = {
+            property_name: df_filtered[
+                (df_filtered["property_name"] == property_name)
+                & (df_filtered["zip"].notnull())
+            ]["zip"]
+            .drop_duplicates()
+            .tolist()
+            for property_name in df_filtered["property_name"].unique()
+        }
 
         property_address_dict = {
             property_name: df_filtered[
@@ -43,9 +71,14 @@ def load_dropdown_options():
             if street_address
         }
 
-        dropdown_options['communities'] = df_communities["property_name"].tolist()
-        dropdown_options['addresses'] = property_address_dict
-        dropdown_options['apart_number'] = address_unit_dict
+        dropdown_options["communities"] = list(
+            set(df_filtered["property_name"].tolist())
+        )
+        dropdown_options["addresses"] = property_address_dict
+        dropdown_options["apart_number"] = address_unit_dict
+        dropdown_options["city"] = property_city_dict
+        dropdown_options["state"] = property_state_dict
+        dropdown_options["zip"] = property_zip_dict
 
         return dropdown_options
     else:
@@ -63,11 +96,9 @@ def load_fee_params(community):
     query = (
         f"SELECT * FROM ico.movein_cost_sheet_params WHERE property_name='{community}';"
     )
-
     with Database() as db:
         conn = db.get_engine()
         df = pd.read_sql(query, conn)
-
     if not df.empty:
         fee_params = df.iloc[0].to_dict()
         return fee_params

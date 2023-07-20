@@ -2,161 +2,210 @@
 <html>
 
 <head>
-    <title>ICO Cost Sheet</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<title>ICO Cost Sheet</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	<!-- dropdown functionality -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 </head>
 
 <body>
-    <div id="page-loader">
-        <div class="loader"></div>
-    </div>
-    <div class="container-fluid">
-        <div class="card">
-            <img class="logo" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo Image">
-            <form id="invoiceForm" action="{{ url_for('main.invoice') }}" method="post">
-                <div id="progressbar">
-                    <li class="active">General</li>
-                    <li class="">Fees and Charges</li>
-                </div>
-                <div class="form-card">
-                    <h2 class="fs-title">General and Tenant Info</h2>
-                    <div class="form-row">
-                        <div class="left-side">
-                            <div class="input-row">
-                                <label for="community">Community Name:</label>
-                                <select id="community" name="community">
-                                </select>
-                            </div>
-                            <div class="input-row">
-                                <label id="address_label" for="address">Unit Number Lookup:</label>
-                                <select id="address" name="address">
-                                </select>
-                            </div>
-                            <div class="input-row">
-                                <label for="move-in-date">Move-in Date:</label>
-                                <input type="date" id="move-in-date" name="move_in_date" required />
-                            </div>
-                        </div>
-                        <div class="right-side-general-section">
-                            <div class="input-row">
-                                <label for="tenant-name">Tenant Name:</label>
-                                <input type="text" id="tenant-name" name="tenant_name" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="apt-number">Apartment Number:</label>
-                                <select id="apt-number" name="apt_number" class="dropdown" required />
-                                </select>
-                            </div>
-                            <div class="input-row">
-                                <label for="lease-term">Lease Term (months):</label>
-                                <input type="number" id="lease-term" name="lease_term" required />
-                            </div>
-                        </div>
-                    </div>
-                    <input type="button" id="nextBtn1" name="next" class="next action-button-next" value="Next" />
-                </div>
-                <div class="form-card-fee">
-                    <h2 class="fs-title">Fees and Charges</h2>
-                    <div class="form-row">
-                        <div class="left-side">
-                            <div class="input-row">
-                                <label for="admin-fee" class="label-text">Administration Fee:</label>
-                                <input type="number" id="admin-fee" name="admin_fee" class="input-field" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="app-fee" class="label-text">Application Fee:</label>
-                                <input type="number" id="app-fee" name="app_fee" class="input-field" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="security-deposit" class="label-text">Security Deposit:</label>
-                                <input type="number" id="security-deposit" name="security_deposit" class="input-field"
-                                    required />
-                            </div>
-                            <div class="input-row">
-                                <label for="pet-deposit" class="label-text">Pet Deposit (refundable):</label>
-                                <input type="number" id="pet-deposit" name="pet_deposit" class="input-field" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="pet-fee" class="label-text">Pet Fee (non-refundable):</label>
-                                <input type="number" id="pet-fee" name="pet_fee" class="input-field" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="smart-home-program" class="label-text">Smart Home Buyer Program:</label>
-                                <input type="number" id="smart-home-program" name="smart_home_buyer_program"
-                                    class="input-field" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="monthly-rent" class="label-text">Monthly Rent:</label>
-                                <input type="number" id="monthly-rent" name="monthly_rent" class="input-field"
-                                    required />
-                            </div>
-                            <div class="input-row">
-                                <label for="media-automation" class="label-text">Media/Automation Package:</label>
-                                <input type="number" id="media-automation" name="media_automation" class="input-field"
-                                    required />
-                            </div>
-                        </div>
-                        <div class="right-side-fee-section">
-                            <div class="input-row">
-                                <label for="garage" class="label-text">Garage:</label>
-                                <input type="number" id="garage" name="garage" class="input-field" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="carport" class="label-text">Carport:</label>
-                                <input type="number" id="carport" name="carport" class="input-field" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="storage" class="label-text">Storage:</label>
-                                <input type="number" id="storage" name="storage" class="input-field" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="monthly-pet-fee" class="label-text">Monthly Pet Fee:</label>
-                                <input type="number" id="monthly-pet-fee" name="monthly_pet_fee" class="input-field"
-                                    required />
-                            </div>
-                            <div class="input-row">
-                                <label for="insurance-waiver" class="label-text">Insurance Waiver:</label>
-                                <input type="number" id="insurance-waiver" name="insurance_waiver" class="input-field"
-                                    required />
-                            </div>
-                            <div class="input-row">
-                                <label for="monthly-concession" class="label-text">Monthly Concession:</label>
-                                <input type="number" id="monthly-concession" name="monthly_concession"
-                                    class="input-field" required />
-                            </div>
-                            <div class="input-row">
-                                <label for="one-time-con" class="label-text">One-time Conc:</label>
-                                <input type="number" id="one-time-con" name="one_time_con" class="input-field"
-                                    required />
-                            </div>
-                            <div class="input-row">
-                                <label for="others" class="label-text">Other (HOA, Short term fee, Bike Storage
-                                    etc):</label>
-                                <input type="number" id="others" name="others" class="input-field" required />
-                            </div>
-                            <input type="hidden" id="internet-util" name="internet_util" class="internet_util">
-                            <input type="hidden" id="internet_contact" name="internet_contact" class="internet_contact">
-                            <input type="hidden" id="power_util" name="power_util" class="power_util">
-                            <input type="hidden" id="power_util_contact" name="power_util_contact"
-                                class="power_util_contact">
-                            <input type="hidden" id="gas_util" name="gas_util" class="gas_util">
-                            <input type="hidden" id="gas_util_contact" name="gas_util_contact" class="gas_util_contact">
-                            <input type="hidden" id="packages_util" name="packages_util" class="packages_util">
-                            <input type="hidden" id="packages_contact" name="packages_contact" class="packages_contact">
-                        </div>
-                    </div>
-                    <button type="button" class="button-btn submit action-button-submit">Submit</button>
-                    <input type="button" id="prevBtn2" name="previous"
-                        class="button-btn previous previous2 action-button-previous" value="Previous" />
-                </div>
-            </form>
-        </div>
-    </div>
-    </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+	<header>
+		<nav class="navbar"> <img class="logo" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo Image">
+			<div id="progressbar">
+				<li class="active">General</li>
+				<li class="">Fees and Charges</li>
+			</div>
+		</nav>
+	</header>
+	<div id="page-loader">
+		<div class="loader"></div>
+	</div>
+	<div class="container-fluid">
+		<div class="card">
+			<form id="invoiceForm" action="{{ url_for('main.invoice') }}" method="post">
+				<div class="form-card clearfix">
+					<h2 class="text-left">General and Tenant Info</h2>
+					<div class="form-horizontal">
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Community Name:</label>
+								<div class="col-sm-8">
+									<select type="text" id="community" name="community" class="select2-dropdown js-select2 form-control"></select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Unit Number Lookup:</label>
+								<div class="col-sm-8">
+									<select type="text" id="address" name="address" class="form-control js-select2 select2-dropdown"></select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Tenant Name:</label>
+								<div class="col-sm-8">
+									<input type="text" id="tenant-name" name="tenant_name" class="form-control"> </div>
+							</div>
+						</div>
+                        <div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Move-in Date:</label>
+								<div class="col-sm-8">
+									<input type="date" id="move-in-date" name="move_in_date" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Lease Term (months):</label>
+								<div class="col-sm-8">
+									<input type="number" id="lease-term" name="lease_term" class="form-control" value="12"> </div>
+							</div>
+						</div>
+					</div>
+					<button type="button" id="nextBtn1" name="next" class="next action-button-next" value="Next">Next</button>
+				</div>
+				<div class="form-card clearfix">
+					<h2 class="text-left">Fees and Charges</h2>
+					<div class="form-horizontal">
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Administration Fee:</label>
+								<div class="col-sm-6">
+									<input type="number" id="admin-fee" name="admin_fee" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Application Fee:</label>
+								<div class="col-sm-6">
+									<input type="number" id="app-fee" name="app_fee" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Security Deposit:</label>
+								<div class="col-sm-6">
+									<input type="number" id="security-deposit" name="security_deposit" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Pet Deposit (refundable):</label>
+								<div class="col-sm-6">
+									<input type="number" id="pet-deposit" name="pet_deposit" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Pet Fee (non-refundable):</label>
+								<div class="col-sm-6">
+									<input type="number" id="pet-fee" name="pet_fee" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Smart Home Buyer Program:</label>
+								<div class="col-sm-6">
+									<input type="number" id="smart-home-program" name="smart_home_buyer_program" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Monthly Rent:</label>
+								<div class="col-sm-6">
+									<input type="number" id="monthly-rent" name="monthly_rent" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Media/Automation Package:</label>
+								<div class="col-sm-6">
+									<input type="number" id="media-automation" name="media_automation" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Garage:</label>
+								<div class="col-sm-6">
+									<input type="number" id="garage" name="garage" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Carport:</label>
+								<div class="col-sm-6">
+									<input type="number" id="carport" name="carport" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Storage:</label>
+								<div class="col-sm-6">
+									<input type="number" id="storage" name="storage" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Monthly Pet Fee:</label>
+								<div class="col-sm-6">
+									<input type="number" id="monthly-pet-fee" name="monthly_pet_fee" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Insurance Waiver:</label>
+								<div class="col-sm-6">
+									<input type="number" id="insurance-waiver" name="insurance_waiver" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Monthly Concession:</label>
+								<div class="col-sm-6">
+									<input type="number" id="monthly-concession" name="monthly_concession" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">One-time Conc:</label>
+								<div class="col-sm-6">
+									<input type="number" id="one-time-con" name="one_time_con" class="form-control"> </div>
+							</div>
+						</div>
+						<div class="col-sm-6 input-row">
+							<div class="form-group">
+								<label class="col-sm-6 control-label">Other (HOA, Short term fee, Bike Storage etc):</label>
+								<div class="col-sm-6">
+									<input type="number" id="others" name="others" class="form-control"> </div>
+							</div>
+						</div>
+					</div>
+					<input type="hidden" id="city-hidden" name="city" value="">
+					<input type="hidden" id="state-hidden" name="state" value="">
+					<input type="hidden" id="zip-hidden" name="zip" value="">
+					<input type="hidden" id="apt-number-hidden" name="apt_number" value="">
+					<input type="hidden" id="internet-util" name="internet_util" class="internet_util">
+					<input type="hidden" id="internet_contact" name="internet_contact" class="internet_contact">
+					<input type="hidden" id="power_util" name="power_util" class="power_util">
+					<input type="hidden" id="power_util_contact" name="power_util_contact" class="power_util_contact">
+					<input type="hidden" id="gas_util" name="gas_util" class="gas_util">
+					<input type="hidden" id="gas_util_contact" name="gas_util_contact" class="gas_util_contact">
+					<input type="hidden" id="packages_util" name="packages_util" class="packages_util">
+					<input type="hidden" id="packages_contact" name="packages_contact" class="packages_contact">
+					<button type="button" class="button-btn submit action-button-submit">Submit</button>
+					<input type="button" id="prevBtn2" name="previous" class="button-btn previous previous2 action-button-previous" value="Previous" /> </div>
+			</form>
+		</div>
+	</div>
 </body>
 
 </html>
