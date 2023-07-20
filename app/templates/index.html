@@ -51,14 +51,6 @@
 						</div>
 						<div class="col-sm-6 input-row">
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Apartment Number:</label>
-								<div class="col-sm-8">
-									<select id="apt-number" name="apt_number" class="form-control js-select2 select2-dropdown"></select>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 input-row">
-							<div class="form-group">
 								<label class="col-sm-4 control-label">Tenant Name:</label>
 								<div class="col-sm-8">
 									<input type="text" id="tenant-name" name="tenant_name" class="form-control"> </div>
@@ -75,7 +67,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label">Lease Term (months):</label>
 								<div class="col-sm-8">
-									<input type="number" id="lease-term" name="lease_term" class="form-control"> </div>
+									<input type="number" id="lease-term" name="lease_term" class="form-control" value="12"> </div>
 							</div>
 						</div>
 					</div>
@@ -197,6 +189,10 @@
 							</div>
 						</div>
 					</div>
+					<input type="hidden" id="city-hidden" name="city" value="">
+					<input type="hidden" id="state-hidden" name="state" value="">
+					<input type="hidden" id="zip-hidden" name="zip" value="">
+					<input type="hidden" id="apt-number-hidden" name="apt_number" value="">
 					<input type="hidden" id="internet-util" name="internet_util" class="internet_util">
 					<input type="hidden" id="internet_contact" name="internet_contact" class="internet_contact">
 					<input type="hidden" id="power_util" name="power_util" class="power_util">
