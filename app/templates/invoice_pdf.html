@@ -7,7 +7,7 @@
 
 <body>
 	<div class="container">
-		<form id="downloadForm" action="{{ url_for('main.invoice_pdf') }}" method="post">
+		<form id="downloadForm">
 			<input type="hidden" id="form_data" name="form_data" class="form_data" value="{{ form_data }}"> <img class="logo-image" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo Image">
 			<h5 class="title">{{form_data.community}}</h5>
 			<h5 class="title-2">Cost Sheet</h5>

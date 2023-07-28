@@ -9,17 +9,20 @@ def load_dropdown_options():
     :return: A dictionary with dropdown options.
     """
     dropdown_options = {}
-    units_query = "SELECT * FROM ico.movein_cost_sheet"
-    communities_query = "SELECT DISTINCT property_name FROM ico.movein_cost_sheet"
-    
+    query = "SELECT * FROM ico.movein_cost_sheet"
     with Database() as db:
         conn = db.get_engine()
-        df_units = pd.read_sql(units_query, conn)
-        df_communities = pd.read_sql(communities_query, conn)
-    
+        df_units = pd.read_sql(query, conn)
     if not df_units.empty:
         df_filtered = df_units.drop_duplicates(
-            subset=["property_name", "street_address", "city", "state", "zip"]
+            subset=[
+                "property_name",
+                "unit_number",
+                "city",
+                "state",
+                "zip",
+                "street_address",
+            ]
         )
 
         property_city_dict = {
@@ -50,26 +53,31 @@ def load_dropdown_options():
             for property_name in df_filtered["property_name"].unique()
         }
 
-        property_address_dict = {
+        address_unit_dict = {
             property_name: df_filtered[
                 (df_filtered["property_name"] == property_name)
-                & (df_filtered["street_address"].notnull())
-            ]["street_address"]
+                & (df_filtered["unit_number"].notnull())
+            ]["unit_number"]
             .drop_duplicates()
             .tolist()
             for property_name in df_filtered["property_name"].unique()
         }
 
-        address_unit_dict = {
-            street_address: df_filtered[
-                (df_filtered["street_address"] == street_address)
-                & (df_filtered["unit_number"].notnull())
-            ]["unit_number"]
-            .drop_duplicates()
-            .tolist()
-            for street_address in df_filtered["street_address"].unique()
-            if street_address
-        }
+        # Updated property_address_dict to filter based on property_name and unit_number
+        property_address_dict = {}
+
+        for _, row in df_filtered.iterrows():
+            property_name = row["property_name"]
+            unit_number = row["unit_number"]
+            street_address = row["street_address"]
+
+            key = f"{property_name}_{unit_number}"
+
+            if key not in property_address_dict:
+                property_address_dict[key] = []
+
+            if street_address not in property_address_dict[key]:
+                property_address_dict[key].append(street_address)
 
         dropdown_options["communities"] = list(
             set(df_filtered["property_name"].tolist())

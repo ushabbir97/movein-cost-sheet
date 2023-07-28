@@ -3,6 +3,7 @@
 
 <head>
 	<title>ICO Cost Sheet</title>
+	<link rel="icon" href="{{ url_for('static', filename='img/logo.jpg') }}">
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -200,7 +201,7 @@
 			<p class="justified">© ICO Multifamily Property Management 2016. For use only within ICO Companies organization. Unauthorized use, copying, or distribution of this information beyond ICO and the user for which it is intended is strictly prohibited.<img class="home-img" src="{{ url_for('static', filename='img/home.jpg') }}" alt="Home Image"> </p>
 			<br>
 			<div class="print-button">
-				<button onclick="invoice_pdf()" class="btn download action-button btn-sm btn-xs">Download</button>
+				<button class="btn download action-button btn-sm btn-xs">Download</button>
 			</div>
 		</form>
 		<button onclick="goBack()" class="btn action-button btn-sm btn-xs back mr-2">Back</button>

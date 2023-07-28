@@ -208,20 +208,20 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
 
         $.getJSON("/get_form_data", function (data) {
             dropdownData = data;
+            // Sort the dropdown options alphabetically
+            if (dropdownData.communities) {
+                dropdownData.communities.sort(function(a, b) {
+                    return a.localeCompare(b);
+                });
+            }
             populateDropdown("#community", dropdownData.communities);
-            populateDropdown("#concession", dropdownData.concessions);
         }).done(function () {
-            // Additional code to populate other dropdowns or perform any necessary operations
-
             // Example: Populate the address dropdown based on the selected community
             var selectedCommunity = $("#community").val();
-            populateDropdown("#address", dropdownData.addresses[selectedCommunity] || []);
+            populateDropdown("#apt-number", dropdownData.apart_number[selectedCommunity] || []);
             populateDropdown("#city", dropdownData.city[selectedCommunity] || []);
             populateDropdown("#state", dropdownData.state[selectedCommunity] || []);
             populateDropdown("#zip", dropdownData.zip[selectedCommunity] || []);
-            // Example: Populate the apartment number dropdown based on the selected address
-            var selectedAddress = $("#address").val();
-            populateDropdown("#apt-number", dropdownData.apart_number[selectedAddress] || []);
 
             // Hide the page loader only on the initial load
             if (initialLoad) {
@@ -270,7 +270,7 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
                 type: "GET",
                 data: {
                     community: community
-                },
+                }, 
                 success: function (response) {
                     // Set default values to zero for specific fields
                     var fieldsWithDefaultZero = [
@@ -331,30 +331,25 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
                 },
             });
         }
-        console.log(dropdownData)
-
-        populateDropdown("#address", dropdownData.addresses[community] || []);
-        if (dropdownData.addresses[community].length === 0) {
-            $("#address").hide();
-            $("#address_label").hide();
-        } else {
-            $("#address").show();
-            $("#address_label").show();
+        // Sort the dropdown options alphabetically
+        if (dropdownData.apart_number[community]) {
+            dropdownData.apart_number[community].sort(function(a, b) {
+                return a.localeCompare(b);
+            });
         }
+        populateDropdown("#apt-number", dropdownData.apart_number[community] || []);
 
-        // Populate the apart-number dropdown based on the selected address
-        var selectedAddress = $("#address").val();
-        populateDropdown("#apt-number", dropdownData.apart_number[selectedAddress] || []);
     });
-    $("#address").change(function () {
-        // When the address dropdown changes (a new address is selected), this function is executed.
+    $("#apt-number").change(function () {
+        // Get the selected community and unit_number (apt-number)
+        var selectedCommunity = $("#community").val();
+        var selectedApartment = $(this).val();
     
-        // Get the selected address from the dropdown
-        var selectedAddress = $(this).val();
-        var apartmentNumber = (dropdownData.apart_number[selectedAddress] || [])[0] || '';
-    
-        // Set the value of the hidden input field to the selected apartment number
-        $("#apt-number-hidden").val(apartmentNumber);
+        // Get the addresses associated with the selected community and unit_number
+        var addresses = dropdownData.addresses[`${selectedCommunity}_${selectedApartment}`] || [];
+        
+        $("#address-hidden").val(addresses);
+
     });
 
     function populateDropdown(selector, options) {
@@ -418,8 +413,8 @@ if (sessionStorage.getItem('form_data')) {
 }
 
 
- // Store form data in session storage before navigating away from the page
- window.onbeforeunload = function() {
+// Store form data in session storage before navigating away from the page
+window.onbeforeunload = function() {
     const formElement = document.getElementById('invoiceForm');
     const formData = new FormData(formElement);
     sessionStorage.setItem('form_data', JSON.stringify(Object.fromEntries(formData.entries())));

@@ -5,6 +5,10 @@ from ..services.dropdown import load_dropdown_options, load_fee_params
 import locale
 import json
 import weasyprint
+import os
+import datetime
+from app.services.azure_storage import AzureBlob
+from datetime import datetime as dt
 
 
 @bp.route("/")
@@ -106,20 +110,49 @@ def get_fee_params():
 @bp.route("/invoice_pdf", methods=["POST"])
 def invoice_pdf():
     """
-    Generate and download a PDF invoice based on form data.
+    Generate and download a PDF invoice based on form data and also
+    upload the generated PDF and JSON file to Azure Blob Storage.
 
     Returns:
         Response: Flask response with the PDF data as an attachment.
     """
-
     form_data = json.loads(request.form.get("form_data").replace("'", '"'))
+
+    # Save form data as JSON file
+    _move_in_date = dt.strptime(form_data["move_in_date"], "%m/%d/%Y")
+    move_in_date = _move_in_date.strftime("%Y-%m-%d")
+    blob_file_name = f"{form_data['tenant_name']} {form_data['apt_number']} Cost Sheet {move_in_date}"
+    json_file_name = f"{blob_file_name}.json"
+    json_file_content = json.dumps(form_data).encode()
+
     rendered_html = render_template("invoice_pdf.html", form_data=form_data)
     html = weasyprint.HTML(string=rendered_html, base_url=request.host_url)
     pdf = html.write_pdf()
-    filename = f"{form_data['tenant_name']} {form_data['apt_number']} Cost Sheet.pdf"
 
-    response = make_response(pdf)
-    response.headers["Content-Type"] = "application/pdf"
-    response.headers["Content-Disposition"] = f"attachment; filename={filename}"
+    # Set the PDF filename for download
+    pdf_file_name = f"{blob_file_name}.pdf"
+    pdf_file_content = pdf
 
-    return response
+    BLOB_CONNECTION_STRING = os.environ.get("BLOB_CONNECTION_STRING")
+    BLOB_CONTAINER_NAME = os.environ.get("BLOB_CONTAINER_NAME")
+
+    # Upload the JSON and PDF files to Azure Blob Storage
+    azure_blob = AzureBlob(BLOB_CONNECTION_STRING, BLOB_CONTAINER_NAME)
+    azure_blob.upload_file(json_file_content, json_file_name, "application/json")
+    azure_blob.upload_file(pdf_file_content, pdf_file_name, "application/pdf")
+
+    # Check if the files were uploaded successfully
+    json_file_exists = azure_blob.container_client.get_blob_client(
+        json_file_name
+    ).exists()
+    pdf_file_exists = azure_blob.container_client.get_blob_client(pdf_file_name).exists()
+
+    if json_file_exists and pdf_file_exists:
+        # Both files were uploaded successfully
+        download_file_name = f"{form_data['tenant_name']} {form_data['apt_number']} Cost Sheet.pdf"
+        response = make_response(pdf)
+        response.headers["Content-Type"] = "application/pdf"
+        response.headers["Content-Disposition"] = f"attachment; filename={download_file_name}"
+        return response
+    else:
+        return "Failed to upload files to Blob Storage.", 500
