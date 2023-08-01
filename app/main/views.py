@@ -1,13 +1,13 @@
-from flask import jsonify, render_template, make_response, request
-from . import bp
-from ..services.calculations import calculate_totals, format_dates
-from ..services.dropdown import load_dropdown_options, load_fee_params
 import locale
 import json
 import weasyprint
 import os
-import datetime
+from . import bp
+from ..services.calculations import calculate_totals, format_dates
+from ..services.property_service import load_properties, get_market_rent, load_units, load_fee_params
 from app.services.azure_storage import AzureBlob
+from flask import jsonify, render_template, make_response, request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime as dt
 
 
@@ -74,7 +74,6 @@ def invoice():
 
     for field in fields_to_format:
         form_data[field] = locale.format("%d", float(form_data[field]), grouping=True)
-
     return render_template("invoice.html", form_data=form_data)
 
 
@@ -86,8 +85,8 @@ def get_form_data():
     This endpoint loads dropdown options from database and returns them in a
     JSON response.
     """
-    dropdown_options = load_dropdown_options()
-    return jsonify(dropdown_options)
+    properties = load_properties()
+    return jsonify(properties)
 
 
 @bp.route("/get_fee_params", methods=["GET"])
@@ -98,13 +97,40 @@ def get_fee_params():
     Returns:
         dict: A dictionary containing fee parameters.
     """
-    community = request.args.get("community")
-    fee_params = load_fee_params(community)
+    property_id = request.args.get("propertyId")
+    # Create a ThreadPoolExecutor with 2 threads to run both functions in parallel
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        # Submit the functions to the executor to run in parallel
+        property_fee_params = executor.submit(load_fee_params, property_id)
+        property_units = executor.submit(load_units, property_id)
 
-    if fee_params is not None:
-        return fee_params
-    else:
-        return {"error": "Data not found"}
+        # Wait for both functions to complete and get their results
+        fee_params = property_fee_params.result()
+        units = property_units.result()
+
+    data = {
+        'fee_params': fee_params if fee_params is not None else {"error": "Fee params not found"},
+        'units': units if units is not None else {"error": "Units not found"}
+    }
+
+    return data
+
+
+@bp.route("/get_monthly_rent", methods=["GET"])
+def get_monthly_rent():
+    """
+    Retrieves monthly rent for a given property and unit number.
+
+    Returns:
+        dict: A dictionary containing market rent for a property.
+    """
+    property_id = request.args.get("propertyId")
+    unit_number = request.args.get("unitNumber")
+
+    market_rent = get_market_rent(property_id, unit_number)
+    data = {'monthly_rent': market_rent}
+
+    return data
 
 
 @bp.route("/invoice_pdf", methods=["POST"])
@@ -121,7 +147,7 @@ def invoice_pdf():
     # Save form data as JSON file
     _move_in_date = dt.strptime(form_data["move_in_date"], "%m/%d/%Y")
     move_in_date = _move_in_date.strftime("%Y-%m-%d")
-    blob_file_name = f"{form_data['tenant_name']} {form_data['apt_number']} Cost Sheet {move_in_date}"
+    blob_file_name = f"{form_data['tenant_name']} {form_data['unit_number']} Cost Sheet {move_in_date}"
     json_file_name = f"{blob_file_name}.json"
     json_file_content = json.dumps(form_data).encode()
 
@@ -149,7 +175,7 @@ def invoice_pdf():
 
     if json_file_exists and pdf_file_exists:
         # Both files were uploaded successfully
-        download_file_name = f"{form_data['tenant_name']} {form_data['apt_number']} Cost Sheet.pdf"
+        download_file_name = f"{form_data['tenant_name']} {form_data['unit_number']} Cost Sheet.pdf"
         response = make_response(pdf)
         response.headers["Content-Type"] = "application/pdf"
         response.headers["Content-Disposition"] = f"attachment; filename={download_file_name}"

@@ -197,7 +197,7 @@ showFormStep(0);
 document.getElementById("nextBtn1").addEventListener("click", nextFormStep);
 document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
 
-    let dropdownData;
+    let communityDropdownData;
     let initialLoad = true;
 
     function loadData() {
@@ -207,22 +207,15 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
         }
 
         $.getJSON("/get_form_data", function (data) {
-            dropdownData = data;
+            communityDropdownData = data;
             // Sort the dropdown options alphabetically
-            if (dropdownData.communities) {
-                dropdownData.communities.sort(function(a, b) {
-                    return a.localeCompare(b);
+            if (communityDropdownData) {
+                communityDropdownData.sort(function(a, b) {
+                    return a.Name.localeCompare(b.Name);
                 });
             }
-            populateDropdown("#community", dropdownData.communities);
+            populateCommunitiesDropdown("#community", communityDropdownData);
         }).done(function () {
-            // Example: Populate the address dropdown based on the selected community
-            var selectedCommunity = $("#community").val();
-            populateDropdown("#apt-number", dropdownData.apart_number[selectedCommunity] || []);
-            populateDropdown("#city", dropdownData.city[selectedCommunity] || []);
-            populateDropdown("#state", dropdownData.state[selectedCommunity] || []);
-            populateDropdown("#zip", dropdownData.zip[selectedCommunity] || []);
-
             // Hide the page loader only on the initial load
             if (initialLoad) {
                 hidePageLoader();
@@ -254,24 +247,31 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
         loadData();
     });
 
-
+    var selectedPropertyID = null;
     $("#community").change(function () {
-        var community = $(this).val();
-          // Update hidden input fields with city, state, and zip data when a community is selected
-          $("#city-hidden").val(dropdownData.city[community] || '');
-          $("#state-hidden").val(dropdownData.state[community] || '');
-          $("#zip-hidden").val(dropdownData.zip[community] || '');
-
+        selectedPropertyID = $(this).find(":selected").data("property-id");
         // Only make the API request and show the loader if it's not the initial load
         if (!initialLoad) {
             // Call the new API and populate additional fields
+            showPageLoader();
+
             $.ajax({
                 url: "/get_fee_params",
                 type: "GET",
                 data: {
-                    community: community
-                }, 
+                    propertyId: selectedPropertyID
+                },
                 success: function (response) {
+                    hidePageLoader();
+                    fee_params = response.fee_params
+                    // Sort the dropdown options alphabetically
+                    if (response.units) {
+                        response.units.sort(function(a, b) {
+                            return a.UnitNumber.localeCompare(b.UnitNumber);
+                        });
+                    }
+                    populateUnitsDropdown("#unit-number", response.units || []);
+
                     // Set default values to zero for specific fields
                     var fieldsWithDefaultZero = [
                         "security_deposit",
@@ -293,71 +293,98 @@ document.getElementById("prevBtn2").addEventListener("click", previousFormStep);
                         // Add other fields here
                     ];
                     fieldsWithDefaultZero.forEach(function (field) {
-                        if (response[field] === undefined) {
-                            response[field] = "0";
+                        if (fee_params[field] === undefined) {
+                            fee_params[field] = "0";
                         }
                     });
-
+                    
                     // Update fields based on the response from the API
-                    $("#pet-deposit").val(response.pet_deposit);
-                    $("#pet-fee").val(response.pet_fee);
-                    $("#app-fee").val(response.app_fee);
-                    $("#admin-fee").val(response.admin_fee);
-                    $("#monthly-pet-fee").val(response.pet_fee_monthly);
-                    $("#media-automation").val(response.media_fee);
-                    $("#garage").val(response.garage_fee);
-                    $("#carport").val(response.carport_fee);
-                    $("#storage").val(response.storage_fee);
-                    $("#others").val(response.other_fee);
-                    $("#monthly-concession").val(response.monthly_concession);
-                    $("#security-deposit").val(response.security_deposit);
-                    $("#monthly-rent").val(response.monthly_rent);
-                    $("#smart-home-program").val(response.smart_home_buyer_program);
-                    $("#insurance-waiver").val(response.insurance_waiver);
-                    $("#one-time-con").val(response.one_time_con);
-                    $("#internet-util").val(response.internet_util);
-                    $("#internet_contact").val(response.internet_contact);
-                    $("#power_util").val(response.power_util);
-                    $("#power_util_contact").val(response.power_util_contact);
-                    $("#gas_util").val(response.gas_util);
-                    $("#gas_util_contact").val(response.gas_util_contact);
-                    $("#packages_util").val(response.packages_util);
-                    $("#packages_contact").val(response.packages_contact);
+                    $("#pet-deposit").val(fee_params.pet_deposit);
+                    $("#pet-fee").val(fee_params.pet_fee);
+                    $("#app-fee").val(fee_params.app_fee);
+                    $("#admin-fee").val(fee_params.admin_fee);
+                    $("#monthly-pet-fee").val(fee_params.pet_fee_monthly);
+                    $("#media-automation").val(fee_params.media_fee);
+                    $("#garage").val(fee_params.garage_fee);
+                    $("#carport").val(fee_params.carport_fee);
+                    $("#storage").val(fee_params.storage_fee);
+                    $("#others").val(fee_params.other_fee);
+                    $("#monthly-concession").val(fee_params.monthly_concession);
+                    $("#security-deposit").val(fee_params.security_deposit);
+                    $("#monthly-rent").val(fee_params.monthly_rent);
+                    $("#smart-home-program").val(fee_params.smart_home_buyer_program);
+                    $("#insurance-waiver").val(fee_params.insurance_waiver);
+                    $("#one-time-con").val(fee_params.one_time_con);
+                    $("#internet-util").val(fee_params.internet_util);
+                    $("#internet_contact").val(fee_params.internet_contact);
+                    $("#power_util").val(fee_params.power_util);
+                    $("#power_util_contact").val(fee_params.power_util_contact);
+                    $("#gas_util").val(fee_params.gas_util);
+                    $("#gas_util_contact").val(fee_params.gas_util_contact);
+                    $("#packages_util").val(fee_params.packages_util);
+                    $("#packages_contact").val(fee_params.packages_contact);
                     // ...
                 },
                 
                 error: function (xhr, status, error) {
-                    console.log("Error calling new API:", error);
+                    console.log("Error calling get_fee_params API:", error);
                 },
             });
         }
-        // Sort the dropdown options alphabetically
-        if (dropdownData.apart_number[community]) {
-            dropdownData.apart_number[community].sort(function(a, b) {
-                return a.localeCompare(b);
-            });
-        }
-        populateDropdown("#apt-number", dropdownData.apart_number[community] || []);
 
     });
-    $("#apt-number").change(function () {
-        // Get the selected community and unit_number (apt-number)
-        var selectedCommunity = $("#community").val();
-        var selectedApartment = $(this).val();
-    
-        // Get the addresses associated with the selected community and unit_number
-        var addresses = dropdownData.addresses[`${selectedCommunity}_${selectedApartment}`] || [];
-        
-        $("#address-hidden").val(addresses);
+    $("#unit-number").change(function () {
+        var selectedUnit = $(this).find(":selected").data("unit-object");
+        // Update hidden input fields with city, state, and zip data when a community is selected
+        $("#address-hidden").val(selectedUnit.StreetAddress || '');
+        $("#city-hidden").val(selectedUnit.City || '');
+        $("#state-hidden").val(selectedUnit.State || '');
+        $("#zip-hidden").val(selectedUnit.Zip || '');
+
+        showPageLoader();
+
+        $.ajax({
+            url: "/get_monthly_rent",
+            type: "GET",
+            data: {
+                unitNumber: selectedUnit.UnitNumber,
+                propertyId: selectedPropertyID
+            }, 
+            success: function (response) {
+                hidePageLoader();
+                $("#monthly-rent").val(response.monthly_rent);
+            },
+            
+            error: function (xhr, status, error) {
+                console.log("Error calling get_monthly_rent API:", error);
+            },
+        });
 
     });
 
-    function populateDropdown(selector, options) {
+    function populateCommunitiesDropdown(selector, options) {
         var $dropdown = $(selector);
         $dropdown.empty();
         $dropdown.append($("<option />").val("").text("--Select--"));
         $.each(options, function () {
-            $dropdown.append($("<option />").val(this).text(this));
+            $dropdown.append($("<option />").attr("data-property-id", this.PropertyID).text(this.Name));
+        });
+    }
+    function populateUnitsDropdown(selector, options) {
+        var $dropdown = $(selector);
+        $dropdown.empty();
+        $dropdown.append($("<option />").val("").text("--Select--"));
+        
+        $.each(options, function () {
+            var optionValue = JSON.stringify({
+                UnitID: this.UnitID,
+                UnitNumber: this.UnitNumber,
+                StreetAddress: this.StreetAddress,
+                City: this.City,
+                State: this.State,
+                Zip: this.Zip
+            });
+            $dropdown.append($("<option />").attr("data-unit-object", optionValue).text(this.UnitNumber));
         });
     }
 });
