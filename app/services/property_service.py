@@ -1,6 +1,9 @@
 from app.services.resman_client import ResManClient
 from app.services.database import Database
+from datetime import datetime
 import pandas as pd
+import numpy as np
+import math
 
 
 def load_properties() -> list:
@@ -16,10 +19,8 @@ def load_properties() -> list:
     else:
         return []
     properties = [
-        {
-            'PropertyID': prop['PropertyID'],
-            'Name': prop['Name']
-        } for prop in dict_data['Properties']
+        {"PropertyID": prop["PropertyID"], "Name": prop["Name"]}
+        for prop in dict_data["Properties"]
     ]
 
     return properties
@@ -31,20 +32,23 @@ def load_units(property_id: str) -> list:
         list: A list of units [{'UnitNumber': '123', 'StreetAddress': '123 Main St', 'City': 'City', 'State': 'State', 'Zip': 'Zip'}]
     """
     client = ResManClient()
-    response = client.post(path="/Property/GetUnits", addtl_params={'PropertyID': property_id})
+    response = client.post(
+        path="/Property/GetUnits", addtl_params={"PropertyID": property_id}
+    )
     if response.status_code != 200:
         return []
 
     dict_data = response.json()
     units = [
         {
-            'UnitID': unit.get('UnitID'),
-            'UnitNumber': unit.get('UnitNumber'),
-            'StreetAddress': unit.get('StreetAddress'),
-            'City': unit.get('City'),
-            'State': unit.get('State'),
-            'Zip': unit.get('Zip')
-        } for unit in dict_data['Units']
+            "UnitID": unit.get("UnitID"),
+            "UnitNumber": unit.get("UnitNumber"),
+            "StreetAddress": unit.get("StreetAddress"),
+            "City": unit.get("City"),
+            "State": unit.get("State"),
+            "Zip": unit.get("Zip"),
+        }
+        for unit in dict_data["Units"]
     ]
     return units
 
@@ -78,13 +82,48 @@ def get_market_rent(property_id: str, unit_number: str) -> float:
         return 0
 
 
-
 def load_fee_params(property_id: str) -> dict:
     """
     Loads fee parameters for a specific community from the database.
 
     :param property_id: The id of the community.
     :return: A dictionary with fee parameters if found, None otherwise.
+    """
+    query = f"SELECT * FROM prop.income_plus WHERE ms_ParentProperty_id='{property_id}';"
+
+    try:
+        with Database() as db:
+            conn = db.get_engine()
+            df = pd.read_sql(query, conn)
+
+        if not df.empty:
+            result = df.iloc[0].to_dict()
+            # Convert non-serializable data to serializable formats
+            if 'Created' in result and isinstance(result['Created'], bytes):
+                result['Created'] = datetime.fromtimestamp(
+                    int.from_bytes(result['Created'], byteorder='big')).strftime('%Y-%m-%d %H:%M:%S')
+            # Replace NaN values with None
+            for key, value in result.items():
+                if isinstance(value, (float, np.float64)):
+                    if math.isnan(value):
+                        result[key] = None
+            # print("???????????")
+            # print(f"fee params data{result}")
+            return result
+        else:
+            print("No data found")
+            return None
+    except Exception as e:
+        print(f"Error fetching fee parameters: {e}")
+        return None
+
+
+def load_util_params(property_id: str) -> dict:
+    """
+    Loads util parameters for a specific community from the database.
+
+    :param property_id: The id of the community.
+    :return: A dictionary with utils parameters if found, None otherwise.
     """
     query = (
         f"SELECT * FROM ico.movein_cost_sheet_params WHERE property_id='{property_id}';"
@@ -93,12 +132,15 @@ def load_fee_params(property_id: str) -> dict:
         with Database() as db:
             conn = db.get_engine()
             df = pd.read_sql(query, conn)
+
         if not df.empty:
-            fee_params = df.iloc[0].to_dict()
-            return fee_params
+            util_params = df.iloc[0].to_dict()
+            # print(">>>>>>>>>>>>>>>")
+            # print(f"util params data{util_params}")
+            return util_params
         else:
             print("No data found")
             return None
     except Exception as e:
-        print(f"Error fetching fee parameters: {e}")
+        print(f"Error fetching utils parameters: {e}")
         return None

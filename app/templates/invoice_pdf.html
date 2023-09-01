@@ -1,211 +1,258 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title>ICO Cost Sheet</title>
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pdf_style.css') }}"> </head>
-
-<body>
-	<div class="container">
-		<form id="downloadForm">
-			<input type="hidden" id="form_data" name="form_data" class="form_data" value="{{ form_data }}"> <img class="logo-image" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo Image">
-			<h5 class="title">{{form_data.community}}</h5>
-			<h5 class="title-2">Cost Sheet</h5>
-			<hr class="cost-sheet">
-			<h5 class="section-title">Resident Information</h5>
-			<hr>
-			<div class="row">
-				<div class="left-portion">
-					<table class="custom-table">
-						<tbody>
-							<tr>
-								<td>Name:</td>
-								<td>{{form_data.tenant_name}}</td>
-							</tr>
-							<tr>
-								<td>New Address:</td>
-								<td>{{form_data.address}} Unit {{form_data.unit_number}},</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td>{{form_data.city}}, {{form_data.state}} {{form_data.zip}}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="right-portion">
-					<table class="custom-table">
-						<tbody>
-							<tr>
-								<td>Move-In Date:</td>
-								<td>{{form_data.move_in_date}}</td>
-							</tr>
-							<tr>
-								<td>Lease End:</td>
-								<td>{{form_data.end_date_lease_end}}</td>
-							</tr>
-							<tr>
-								<td>Lease Term (mths):</td>
-								<td>{{form_data.lease_term}}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<h5 class="section-title">Cost:</h5>
-			<hr>
-			<div class="row">
-				<div class="left-portion">
-					<h4 class="subsection-title">Holding Fees</h4>
-					<table class="custom-table">
-						<tbody>
-							<tr>
-								<td>Administration Fee:</td>
-								<td class="row-value">${{form_data.admin_fee}}</td>
-							</tr>
-							<tr>
-								<td>Application Fee:</td>
-								<td class="row-value">${{form_data.app_fee}}</td>
-							</tr>
-						</tbody>
-					</table>
-					<h4 class="subsection-title money-due">Money Due Upon Move In</h4>
-					<table class="custom-table">
-						<tbody>
-							<tr>
-								<td>Security Deposit (OAC):</td>
-								<td class="row-value">${{form_data.security_deposit}}</td>
-							</tr>
-							<tr>
-								<td>Pet Deposit:</td>
-								<td class="row-value">${{form_data.pet_deposit}}</td>
-							</tr>
-							<tr>
-								<td>Pet Fee:</td>
-								<td class="row-value">${{form_data.pet_fee}}</td>
-							</tr>
-							<tr>
-								<td>Smart Home Buyer Program:</td>
-								<td class="row-value">${{form_data.smart_home_buyer_program}}</td>
-							</tr>
-							<tr>
-								<td>Rent from {{ form_data.start_date }} - {{ form_data.end_date_rent_from }}:</td>
-								<td class="row-value">${{form_data.total_monthly_rent}}</td>
-							</tr>
-							<tr>
-								<td class="td-bold">Total Due Upon Move In:</td>
-								<td class="row-value td-bold">${{form_data.total_due}}</td>
-							</tr>
-						</tbody>
-					</table>
-					<hr class="due-upon-move"> </div>
-				<div class="right-portion">
-					<h4 class="subsection-title">Monthly Charges</h4>
-					<table class="custom-table">
-						<tbody>
-							<tr>
-								<td>Monthly Rent:</td>
-								<td class="row-value">${{form_data.monthly_rent}}</td>
-							</tr>
-							<tr>
-								<td>Smart Home Package:</td>
-								<td class="row-value">${{form_data.media_automation}}</td>
-							</tr>
-							<tr>
-								<td>Others (HOA, Short term fee, Bike storage, etc):</td>
-								<td class="row-value">${{form_data.others}}</td>
-							</tr>
-							<tr>
-								<td>Garage:</td>
-								<td class="row-value">${{form_data.garage}}</td>
-							</tr>
-							<tr>
-								<td>Carport:</td>
-								<td class="row-value">${{form_data.carport}}</td>
-							</tr>
-							<tr>
-								<td>Storage:</td>
-								<td class="row-value">${{form_data.storage}}</td>
-							</tr>
-							<tr>
-								<td>Pet:</td>
-								<td class="row-value">${{form_data.monthly_pet_fee}}</td>
-							</tr>
-							<tr>
-								<td>Insurance Waiver:</td>
-								<td class="row-value">${{form_data.insurance_waiver}}</td>
-							</tr>
-							<tr>
-								<td>Monthly Concession:</td>
-								<td class="row-value concession-row">(${{form_data.monthly_concession}})</td>
-							</tr>
-							<tr>
-								<td class="td-bold">Total Monthly Rent:</td>
-								<td class="row-value td-bold">${{form_data.total_monthly_rent}}</td>
-							</tr>
-						</tbody>
-					</table>
-					<hr class="charges">
-					<p class="p-concession">*Your one-time concession of ${{form_data.one_time_con}} will be given after move-in prorated rent is paid in full. </p>
-				</div>
-			</div>
-			<h5 class="section-title">Move-In Day</h5>
-			<hr>
-			<p class="justified">Your move in day is of the utmost importance to us. All parties who are on the lease must be present to sign documentation (or e-sign prior to the move in date) for apartment keys to be released. In addition please provide the following: </p>
-			<li class="small-list list"> {% if form_data.internet_util %}
-				<ul>{{ form_data.internet_util }} for Cable TV & Internet &nbsp; &nbsp;{{ form_data.internet_contact }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(Call at least seven days in advance to ensure set up is complete by move in) </ul> {% endif %} {% if form_data.power_util %}
-				<ul>{{ form_data.power_util }} for Power Utils &nbsp;{{ form_data.power_util_contact }} &nbsp; &nbsp; &nbsp; &nbsp;(Call at least seven days in advance to ensure set up is complete by move in) </ul> {% endif %} {% if form_data.gas_util %}
-				<ul>{{ form_data.gas_util }} for Gas Utils &nbsp; &nbsp;{{ form_data.gas_util_contact }} &nbsp; &nbsp; &nbsp; &nbsp;(Call at least seven days in advance to ensure set up is complete by move in) </ul> {% endif %} {% if form_data.packages_util %}
-				<ul>{{ form_data.packages_util }} for Package Utils &nbsp;{{ form_data.packages_contact }}&nbsp;(Call at least seven days in advance to ensure set up is complete by move in) </ul> {% endif %}
-				<ul>Water, sewer, trash, unit & common area power/gas, and Valet Waste trash service will be set up for you and billed by BillEase but must be paid to the leasing office each month. Your first bill will have a one-time $25.00 set up fee added to it. </ul>
-				<ul>Renter's Insurance Declaration Page must have at least $100,000 in personal liability and ICO Station Parkway listed as an additional insured </ul>
-				<ul>Two most recent paystubs or other approved proof of income</ul>
-				<ul>Required funds for move-in (see above) to be paid via cashier's check, money order, or credit card (fees apply). </ul>
-			</li>
-			<br>
-			<h5 class="resident-title">Resident/Manager Acceptance</h5>
-			<hr>
-			<p class="justified">I understand my application fee and administration fee are required to reserve my apartment home. Any holding fees in the same check (deposit and app fee together) or via credit card will be deposited and processed the same day. I understand that if I cancel this application within 24 hours or if my application is declined, it may take 30 days to receive a refund of the refundable portion of the holding fee paid. My personal check or money order can be held for 72 hours before it is deposited. I further understand that my right to cancel this application within 24 hours is terminated once I sign a lease agreement. More importantly, I understand that the 24 hour right to cancel does not apply to the lease agreement once signed. I understand that if I cancel my applictation after 24 hours, I will forfeit the administration fee paid. Once the lease agreement has been signed, any amounts paid shall be governed by the lease agreement. </p>
-			<div class="row-end">
-				<div class="left-portion">
-					<div class="half-line-left-one"></div>
-					<br>
-					<br>
-					<p class="p-size">Future Resident Signature</p>
-				</div>
-				<div class="right-portion">
-					<div class="half-line-right-one"></div>
-					<br>
-					<br>
-					<p class="date-one">Date</p>
-				</div>
-				<div class="left-portion">
-					<div class="half-line-left-two"></div>
-					<br>
-					<br>
-					<p class="p-size-two">Future Resident Signature</p>
-				</div>
-				<div class="right-portion">
-					<div class="half-line-right-two"></div>
-					<br>
-					<br>
-					<p class="date-two">Date</p>
-				</div>
-				<div class="left-portion">
-					<div class="half-line-left-three"></div>
-					<br>
-					<br>
-					<p class="p-size-three">{{form_data.community}} Agent</p>
-				</div>
-				<div class="right-portion">
-					<div class="half-line-right-three"></div>
-					<br>
-					<p class="date-three">Date</p>
-				</div>
-			</div>
-			<p class="justified-text">© ICO Multifamily Property Management 2016. For use only within ICO Companies organization.Unauthorized use, copying, or distribution of this information beyond ICO and the user for which it is intended is strictly prohibited.<img class="home-img" src="{{ url_for('static', filename='img/home.jpg') }}" alt="Home Image"> </p>
-		</form>
-	</div>
-</body>
-
+   <head>
+      <title>ICO Cost Sheet</title>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pdf_style.css') }}">
+   </head>
+   <body>
+      <div class="container">
+         <form id="downloadForm">
+            <input type="hidden" id="form_data" name="form_data" class="form_data" value="{{ form_data }}"> <img class="logo-image" src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Logo Image">
+            <h5 class="title">{{form_data.community}}</h5>
+            <h5 class="title-2">Cost Sheet</h5>
+            <hr class="cost-sheet">
+            <h5 class="section-title">Resident Information</h5>
+            <hr>
+            <div class="row">
+               <div class="left-portion">
+                  <table class="custom-table">
+                     <tbody>
+                        <tr>
+                           <td>Name:</td>
+                           <td>{{form_data.tenant_name}}</td>
+                        </tr>
+                        <tr>
+                           <td>New Address:</td>
+                           <td>{{form_data.address}} Unit {{form_data.unit_number}},</td>
+                        </tr>
+                        <tr>
+                           <td></td>
+                           <td>{{form_data.city}}, {{form_data.state}} {{form_data.zip}}</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <div class="right-portion">
+                  <table class="custom-table">
+                     <tbody>
+                        <tr>
+                           <td>Move-In Date:</td>
+                           <td>{{form_data.move_in_date}}</td>
+                        </tr>
+                        <tr>
+                           <td>Lease End:</td>
+                           <td>{{form_data.end_date_lease_end}}</td>
+                        </tr>
+                        <tr>
+                           <td>Lease Term (mths):</td>
+                           <td>{{form_data.lease_term}}</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+            <h5 class="section-title">Cost:</h5>
+            <hr>
+            <div class="row">
+               <div class="left-portion">
+                  <h4 class="subsection-title">Holding Fees</h4>
+                  <table class="custom-table">
+                     <tbody>
+                        <tr>
+                           <td>Administration Fee:</td>
+                           <td class="row-value">${{form_data.admin_fee}}</td>
+                        </tr>
+                        <tr>
+                           <td>Application Fee:</td>
+                           <td class="row-value">${{form_data.app_fee}}</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4 class="subsection-title money-due">Money Due Upon Move In</h4>
+                  <table class="custom-table">
+                     <tbody>
+                        <tr>
+                           <td>Security Deposit (OAC):</td>
+                           <td class="row-value">${{form_data.security_deposit}}</td>
+                        </tr>
+                        <tr>
+                           <td>Pet Deposit:</td>
+                           <td class="row-value">${{form_data.pet_deposit}}</td>
+                        </tr>
+                        <tr>
+                           <td>Pet Fee:</td>
+                           <td class="row-value">${{form_data.pet_fee}}</td>
+                        </tr>
+                        <tr>
+                           <td>Smart Home Buyer Program:</td>
+                           <td class="row-value">${{form_data.smart_home_buyer_program}}</td>
+                        </tr>
+                        <tr>
+                           <td>Rent from {{ form_data.start_date }} - {{ form_data.end_date_rent_from }}:</td>
+                           <td class="row-value">${{form_data.total_monthly_rent}}</td>
+                        </tr>
+                        <tr>
+                           <td class="td-bold">Total Due Upon Move In:</td>
+                           <td class="row-value td-bold">${{form_data.total_due}}</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <hr class="due-upon-move">
+               </div>
+               <div class="right-portion">
+                  <h4 class="subsection-title">Monthly Charges</h4>
+                  <table class="custom-table">
+                     <tbody>
+                        <tr>
+                           <td>Monthly Rent:</td>
+                           <td class="row-value">${{form_data.monthly_rent}}</td>
+                        </tr>
+                        <tr>
+                           <td>Smart Home Package:</td>
+                           <td class="row-value">${{form_data.media_automation}}</td>
+                        </tr>
+                        <tr>
+                           <td>Others (HOA, Short term fee, Bike storage, etc):</td>
+                           <td class="row-value">${{form_data.others}}</td>
+                        </tr>
+                        <tr>
+                           <td>Garage:</td>
+                           <td class="row-value">${{form_data.garage}}</td>
+                        </tr>
+                        <tr>
+                           <td>Carport:</td>
+                           <td class="row-value">${{form_data.carport}}</td>
+                        </tr>
+                        <tr>
+                           <td>Storage:</td>
+                           <td class="row-value">${{form_data.storage}}</td>
+                        </tr>
+                        <tr>
+                           <td>Pet:</td>
+                           <td class="row-value">${{form_data.monthly_pet_fee}}</td>
+                        </tr>
+                        <tr>
+                           <td>Insurance Waiver:</td>
+                           <td class="row-value">${{form_data.insurance_waiver}}</td>
+                        </tr>
+                        <tr>
+                           <td>Monthly Concession:</td>
+                           <td class="row-value concession-row">(${{form_data.monthly_concession}})</td>
+                        </tr>
+                        <tr>
+                           <td class="td-bold">Total Monthly Rent:</td>
+                           <td class="row-value td-bold">${{form_data.total_monthly_rent}}</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <hr class="charges">
+                  <p class="p-concession">*Your one-time concession of ${{form_data.one_time_con}} will be given after move-in prorated rent is paid in full. </p>
+               </div>
+            </div>
+            <h5 class="section-title">Move-In Day</h5>
+            <hr>
+            <p class="justified">Your move in day is of the utmost importance to us. All parties who are on the lease must be present to sign documentation (or e-sign prior to the move in date) for apartment keys to be released. In addition please provide the following: </p>
+           <ul class="small-list list">
+              {% if form_data.bleu == 'false' %}
+                  {% if form_data.packages_util %}
+                   <li>
+                     <div class="row row-li">
+                        <div class="col-3">{{ form_data.packages_util }}</div>
+                        <div class="col-3 custom">{{ form_data.packages_contact }} </div>
+                        <div class="col-6 custom">Sign up before your move in day to receive packages at your new address</div>
+                     </div>
+                  </li>
+                 <br>
+                  {% endif %}
+                  {% if form_data.power_util %}
+                  <li>
+                     <div class="row row-li">
+                        <div class="col-3">{{ form_data.power_util }}</div>
+                        <div class="col-3">{{ form_data.power_util_contact }} </div>
+                        <div class="col-6"><ul class="acct">Acct. #</ul><hr class="half-line-right-acct"></div>
+                     </div>
+                  </li>
+                  <br><br><br>
+                  {% endif %}
+                  {% if form_data.gas_util %}
+                  <li>
+                     <div class="row row-li">
+                        <div class="col-3">{{ form_data.gas_util }}</div>
+                        <div class="col-3">{{ form_data.gas_util_contact }} </div>
+                        <div class="col-6"><ul class="acct">Acct. #</ul><hr class="half-line-right-acct"></div>
+                     </div>
+                  </li><br><br>
+                  {% endif %}
+                  {% if form_data.internet_util %}
+                   <li>
+                     <div class="row row-li">
+                        <div class="col-3">{{ form_data.internet_util }} for Cable TV & Internet</div>
+                        <div class="col-3">{{ form_data.internet_contact }} </div>
+                        <div class="col-6 custom">(Call at least seven days in advance to ensure set up is complete by move in)</div>
+                     </div>
+                  </li><br><br>
+                  {% endif %}
+                  <li>Water, sewer, trash, common area power/gas, and Valet Waste trash service will be set up for you and billed by BillEase but must be paid to the leasing office each month. Your first bill will have a one-time $25.00 set up fee added to it.</li>
+              {% else %}
+                    {% if form_data.community == "ICO Ridge Towns" %}
+                      <li>Water, sewer, trash, and unit & common area power/gas will be set up for you and billed by BillEase but must be paid to the leasing office each month. Your first bill will have a one-time $25.00 set up fee added to it.</li>
+                  {% else %}
+                     <li>Water, sewer, trash, unit & common area power/gas, and Valet Waste trash service will be set up for you and billed by BillEase but must be paid to the leasing office each month. Your first bill will have a one-time $25.00 set up fee added to it.</li>
+                  {% endif %}
+              {% endif %}
+               <li>Renter's Insurance Declaration Page must have at least $100,000 in personal liability and {{form_data.community}} listed as an additional insured </li>
+               <li>Two most recent paystubs or other approved proof of income</li>
+              {% if not form_data.community =="Jordan View Towns" %}
+                  <li>Required funds for move-in (see above) to be paid via cashier's check, money order, or credit card (fees apply). </li>
+               {% endif %}
+              {% if form_data.community == "The Devon at University Place" or
+                     form_data.community == "The Exton at University Place" %}
+                  <li>For access to shared amenities with The Aston and The Devon, a one-time fee of $75.00 is required.</li>
+               {% endif %}
+            </ul>
+            <br>
+            <h5 class="resident-title">Resident/Manager Acceptance</h5>
+            <hr>
+            <p class="justified">I understand my application fee and administration fee are required to reserve my apartment home. Any holding fees in the same check (deposit and app fee together) or via credit card will be deposited and processed the same day. I understand that if I cancel this application within 24 hours or if my application is declined, it may take 30 days to receive a refund of the refundable portion of the holding fee paid. My personal check or money order can be held for 72 hours before it is deposited. I further understand that my right to cancel this application within 24 hours is terminated once I sign a lease agreement. More importantly, I understand that the 24 hour right to cancel does not apply to the lease agreement once signed. I understand that if I cancel my applictation after 24 hours, I will forfeit the administration fee paid. Once the lease agreement has been signed, any amounts paid shall be governed by the lease agreement. </p>
+            <div class="row-end">
+               <div class="left-portion">
+                  <div class="half-line-left-one"></div>
+                  <br>
+                  <br>
+                  <p class="p-size">Future Resident Signature</p>
+               </div>
+               <div class="right-portion">
+                  <div class="half-line-right-one"></div>
+                  <br>
+                  <br>
+                  <p class="date-one">Date</p>
+               </div>
+               <div class="left-portion">
+                  <div class="half-line-left-two"></div>
+                  <br>
+                  <br>
+                  <p class="p-size-two">Future Resident Signature</p>
+               </div>
+               <div class="right-portion">
+                  <div class="half-line-right-two"></div>
+                  <br>
+                  <br>
+                  <p class="date-two">Date</p>
+               </div>
+               <div class="left-portion">
+                  <div class="half-line-left-three"></div>
+                  <br>
+                  <br>
+                  <p class="p-size-three">{{form_data.community}} Agent</p>
+               </div>
+               <div class="right-portion">
+                  <div class="half-line-right-three"></div>
+                  <br>
+                  <p class="date-three">Date</p>
+               </div>
+            </div>
+            <p class="justified-text">© ICO Multifamily Property Management 2016. For use only within ICO Companies organization.Unauthorized use, copying, or distribution of this information beyond ICO and the user for which it is intended is strictly prohibited.<img class="home-img" src="{{ url_for('static', filename='img/home.jpg') }}" alt="Home Image"> </p>
+         </form>
+      </div>
+   </body>
 </html>

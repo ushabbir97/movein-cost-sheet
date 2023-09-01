@@ -3,7 +3,7 @@ import calendar
 from dateutil.relativedelta import relativedelta
 
 
-def calculate_totals(form_data, fields, total_due_fields):
+def prorate_rent(form_data, fields, total_due_fields):
     """
     This function calculates the total monthly rent and the total due based on the form data.
 
@@ -13,9 +13,15 @@ def calculate_totals(form_data, fields, total_due_fields):
     :return: form_data updated with total_monthly_rent and total_due.
     """
 
-    total_monthly_rent = sum(int(form_data.get(field, 0)) for field in fields)
+    move_in_date = datetime.datetime.strptime(form_data["move_in_date"], "%Y-%m-%d")
+
+    end_date = move_in_date.replace(day=calendar.monthrange(move_in_date.year, move_in_date.month)[1])
+    move_in_month_days = calendar.monthrange(move_in_date.year, move_in_date.month)[1]
+    total_days = (end_date - move_in_date).days + 1
+    total_monthly_rent = sum(int(form_data.get(field, 0)) * (total_days / move_in_month_days)for field in fields)
     monthly_concession = int(form_data.get("monthly_concession", 0))
     total_monthly_rent -= monthly_concession
+
     form_data["total_monthly_rent"] = total_monthly_rent
 
     total_due = sum(int(form_data.get(field, 0)) for field in total_due_fields)
